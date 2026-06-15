@@ -1,3 +1,8 @@
+"use client";
+
+import { useActionState, useEffect } from "react";
+import { login, loginWithGoogle } from "@/lib/actions/auth";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +25,21 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [state, formAction, isPending] = useActionState(login, null);
+
+  useEffect(() => {
+    if (state?.error) toast.error(state.error);
+  }, [state?.error]);
+
+  const handleGoogleLogin = async () => {
+    const result = await loginWithGoogle();
+    if ("url" in result) {
+      window.location.href = result.url;
+    } else {
+      toast.error(result.error);
+    }
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -30,14 +50,15 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form action={formAction}>
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
                 <Input
                   id="email"
+                  name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="namea@example.com"
                   required
                 />
               </Field>
@@ -51,11 +72,18 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" name="password" type="password" required />
               </Field>
               <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
+                <Button type="submit" disabled={isPending}>
+                  {isPending ? "Logging in..." : "Login"}
+                </Button>
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={handleGoogleLogin}
+                  disabled={isPending}
+                >
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
