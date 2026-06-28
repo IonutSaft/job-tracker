@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { format } from "date-fns";
 import {
@@ -137,54 +137,6 @@ export function ApplicationsTable({
     [sortBy, sortDir, setSearchParams],
   );
 
-  const sortedFiltered = useMemo(() => {
-    let result = [...applications];
-
-    if (statusFilter) {
-      result = result.filter((app) => app.status === statusFilter);
-    }
-
-    result.sort((a, b) => {
-      let cmp = 0;
-      switch (sortBy) {
-        case "company_name":
-          cmp = (a.company_name ?? "").localeCompare(b.company_name ?? "");
-          break;
-        case "role_title":
-          cmp = (a.role_title ?? "").localeCompare(b.role_title ?? "");
-          break;
-        case "status":
-          cmp = (a.status ?? "").localeCompare(b.status ?? "");
-          break;
-        case "location":
-          cmp = (a.location ?? "").localeCompare(b.location ?? "");
-          break;
-        case "applied_at": {
-          const aDate = a.applied_at ? new Date(a.applied_at).getTime() : 0;
-          const bDate = b.applied_at ? new Date(b.applied_at).getTime() : 0;
-          cmp = aDate - bDate;
-          break;
-        }
-        case "salary_min":
-          cmp = (a.salary_min ?? 0) - (b.salary_min ?? 0);
-          break;
-      }
-      return sortDir === "asc" ? cmp : -cmp;
-    });
-
-    return result;
-  }, [applications, sortBy, sortDir, statusFilter]);
-
-  if (applications.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-16 text-center">
-        <p className="text-lg text-muted-foreground">
-          No applications added yet.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div>
       <div className="mb-4">
@@ -232,7 +184,7 @@ export function ApplicationsTable({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sortedFiltered.length === 0 ? (
+          {applications.length === 0 ? (
             <TableRow>
               <TableCell
                 colSpan={7}
@@ -242,7 +194,7 @@ export function ApplicationsTable({
               </TableCell>
             </TableRow>
           ) : (
-            sortedFiltered.map((app) => (
+            applications.map((app) => (
               <TableRow key={app.id}>
                 <TableCell className="font-medium">
                   {app.company_name}
