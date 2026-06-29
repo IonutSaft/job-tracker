@@ -12,6 +12,7 @@ import {
 import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
 import { workTypeLabels, formatSalary } from "@/lib/format";
+import { useApplications } from "@/hooks/use-applications";
 import { Badge } from "@/components/ui/badge";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
 import { ViewApplicationDialog } from "@/components/applications/view-application-dialog";
@@ -60,12 +61,14 @@ const statusFilterOptions = [
 ];
 
 export function ApplicationsTable({
-  applications,
+  initialData,
 }: {
-  applications: Application[];
+  initialData: Application[];
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { data: applicationsData } = useApplications(initialData);
+  const applications = applicationsData ?? [];
   const pathname = usePathname();
 
   const sortBy =

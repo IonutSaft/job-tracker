@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { PlusIcon } from "lucide-react";
 
-import { createApplication } from "@/lib/actions/applications";
 import type { ApplicationFormData } from "@/lib/schemas/applications";
+import { useCreateApplication } from "@/hooks/use-applications";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,8 +20,7 @@ import { ApplicationForm } from "@/components/applications/application-form";
 
 export function CreateApplicationDialog() {
   const [open, setOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const router = useRouter();
+  const createMutation = useCreateApplication();
 
   const defaultValues: ApplicationFormData = {
     company_name: "",
@@ -39,16 +37,13 @@ export function CreateApplicationDialog() {
   };
 
   const onSubmit = async (data: ApplicationFormData) => {
-    setIsSubmitting(true);
-    const result = await createApplication(data);
+    const result = await createMutation.mutateAsync(data);
     if (result.error) {
       toast.error(result.error);
     } else {
       toast.success("Application created");
       setOpen(false);
-      router.refresh();
     }
-    setIsSubmitting(false);
   };
 
   return (
@@ -71,7 +66,7 @@ export function CreateApplicationDialog() {
         <ApplicationForm
           defaultValues={defaultValues}
           onSubmit={onSubmit}
-          isSubmitting={isSubmitting}
+          isSubmitting={createMutation.isPending}
           submitLabel="Create Application"
           submittingLabel="Creating..."
         />

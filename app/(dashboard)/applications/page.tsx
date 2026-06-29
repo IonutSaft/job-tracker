@@ -60,7 +60,7 @@ export default async function Page(props: {
         <CreateApplicationDialog />
       </div>
       <Suspense fallback={null}>
-        <ApplicationsTable applications={applications ?? []} />
+        <ApplicationsTable initialData={applications ?? []} />
       </Suspense>
     </div>
   );

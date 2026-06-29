@@ -1,12 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Trash2 } from "lucide-react";
 
-import { deleteApplication } from "@/lib/actions/applications";
 import type { Database } from "@/lib/database.types";
+import { useDeleteApplication } from "@/hooks/use-applications";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -28,20 +27,16 @@ export function DeleteApplicationDialog({
   application: Application;
 }) {
   const [open, setOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const router = useRouter();
+  const deleteMutation = useDeleteApplication();
 
   const handleDelete = async () => {
-    setIsDeleting(true);
-    const result = await deleteApplication(application.id);
+    const result = await deleteMutation.mutateAsync(application.id);
     if (result.error) {
       toast.error(result.error);
     } else {
       toast.success("Application deleted");
       setOpen(false);
-      router.refresh();
     }
-    setIsDeleting(false);
   };
 
   return (
@@ -65,7 +60,7 @@ export function DeleteApplicationDialog({
         <DialogFooter>
           <DialogClose
             render={
-              <Button variant="outline" type="button" disabled={isDeleting}>
+              <Button variant="outline" type="button" disabled={deleteMutation.isPending}>
                 Cancel
               </Button>
             }
@@ -73,10 +68,10 @@ export function DeleteApplicationDialog({
           <Button
             variant="destructive"
             type="button"
-            disabled={isDeleting}
+            disabled={deleteMutation.isPending}
             onClick={handleDelete}
           >
-            {isDeleting ? "Deleting..." : "Delete"}
+            {deleteMutation.isPending ? "Deleting..." : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>
