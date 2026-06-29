@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
 import { ApplicationsTable } from "@/components/applications/applications-table";
+import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 
 const validSortColumns = [
   "company_name",
@@ -54,7 +55,10 @@ export default async function Page(props: {
 
   return (
     <div className="p-6">
-      <h1 className="mb-6 text-2xl font-bold">Applications</h1>
+      <div className="mb-6 flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Applications</h1>
+        <CreateApplicationDialog />
+      </div>
       <Suspense fallback={null}>
         <ApplicationsTable applications={applications ?? []} />
       </Suspense>
