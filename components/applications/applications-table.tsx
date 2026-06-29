@@ -7,14 +7,14 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  Eye,
-  Pencil,
   Trash2,
 } from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
 import { Badge } from "@/components/ui/badge";
+import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
+import { ViewApplicationDialog } from "@/components/applications/view-application-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -225,12 +225,8 @@ export function ApplicationsTable({
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
-                    <Button variant="ghost" size="icon" disabled>
-                      <Eye />
-                    </Button>
-                    <Button variant="ghost" size="icon" disabled>
-                      <Pencil />
-                    </Button>
+                    <ViewApplicationDialog application={app} />
+                    <EditApplicationDialog application={app} />
                     <Button variant="ghost" size="icon" disabled>
                       <Trash2 />
                     </Button>
