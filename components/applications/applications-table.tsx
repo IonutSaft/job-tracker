@@ -7,7 +7,6 @@ import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
-  Trash2,
 } from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
@@ -16,7 +15,7 @@ import { workTypeLabels, formatSalary } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
 import { ViewApplicationDialog } from "@/components/applications/view-application-dialog";
-import { Button } from "@/components/ui/button";
+import { DeleteApplicationDialog } from "@/components/applications/delete-application-dialog";
 import {
   Select,
   SelectContent,
@@ -191,9 +190,7 @@ export function ApplicationsTable({
                   <div className="flex items-center gap-1">
                     <ViewApplicationDialog application={app} />
                     <EditApplicationDialog application={app} />
-                    <Button variant="ghost" size="icon" disabled>
-                      <Trash2 />
-                    </Button>
+                    <DeleteApplicationDialog application={app} />
                   </div>
                 </TableCell>
               </TableRow>

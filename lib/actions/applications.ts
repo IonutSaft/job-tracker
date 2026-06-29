@@ -85,3 +85,25 @@ export async function updateApplication(
   revalidatePath("/applications");
   return { success: true };
 }
+
+export async function deleteApplication(id: string) {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) return { error: "Not authenticated" };
+
+  const { error } = await supabase
+    .from("applications")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  if (error) return { error: error.message };
+
+  revalidatePath("/applications");
+  return { success: true };
+}
