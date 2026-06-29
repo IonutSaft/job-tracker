@@ -32,6 +32,12 @@ export default async function Home() {
           <p className="text-lg">
             Hello, <span className="font-semibold">{displayName}</span>!
           </p>
+          <Link
+            href="/applications"
+            className="text-sm text-blue-500 underline underline-offset-4 hover:text-blue-700"
+          >
+            Go to Dashboard
+          </Link>
           <form action={logout}>
             <button className="text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground">
               Logout
