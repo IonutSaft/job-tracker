@@ -12,6 +12,7 @@ import {
 
 import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
+import { workTypeLabels, formatSalary } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
 import { ViewApplicationDialog } from "@/components/applications/view-application-dialog";
@@ -33,24 +34,6 @@ import {
 } from "@/components/ui/table";
 
 type Application = Database["public"]["Tables"]["applications"]["Row"];
-
-const currencySymbols: Record<string, string> = {
-  USD: "$",
-  EUR: "€",
-  GBP: "£",
-  JPY: "¥",
-  CAD: "C$",
-  AUD: "A$",
-  CHF: "Fr",
-  CNY: "¥",
-  INR: "₹",
-};
-
-const workTypeLabels: Record<string, string> = {
-  remote: "Remote",
-  hybrid: "Hybrid",
-  onsite: "On-site",
-};
 
 type SortableColumn =
   | "company_name"
@@ -76,25 +59,6 @@ const statusFilterOptions = [
     label: config.label,
   })),
 ];
-
-function formatSalary(
-  min: number | null,
-  max: number | null,
-  currency: string | null,
-) {
-  const symbol = currency ? (currencySymbols[currency] ?? currency) : "$";
-
-  if (min !== null && max !== null) {
-    return `${symbol}${min.toLocaleString()} - ${symbol}${max.toLocaleString()}`;
-  }
-  if (min !== null) {
-    return `${symbol}${min.toLocaleString()}+`;
-  }
-  if (max !== null) {
-    return `Up to ${symbol}${max.toLocaleString()}`;
-  }
-  return "-";
-}
 
 export function ApplicationsTable({
   applications,
@@ -221,7 +185,7 @@ export function ApplicationsTable({
                     app.salary_min,
                     app.salary_max,
                     app.salary_currency,
-                  )}
+                  ) ?? "-"}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
