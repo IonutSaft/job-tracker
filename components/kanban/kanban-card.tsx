@@ -1,30 +1,47 @@
 "use client";
 
-import { useDraggable } from "@dnd-kit/react";
+import { useDraggable, useDroppable } from "@dnd-kit/react";
 import { format } from "date-fns";
 import type { Database } from "@/lib/database.types";
 import { formatSalary } from "@/lib/format";
 import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 type ApplicationRow = Database["public"]["Tables"]["applications"]["Row"];
 
 export function KanbanCard({ application }: { application: ApplicationRow }) {
-  const { ref, isDragging } = useDraggable({
+  const { ref: dragRef, isDragging } = useDraggable({
     id: application.id,
     data: { application },
   });
 
+  const { ref: dropRef, isDropTarget } = useDroppable({
+    id: `sortable-${application.id}`,
+    data: { application },
+  });
+
   return (
-    <div ref={ref} className={isDragging ? "opacity-50" : undefined}>
-      <KanbanCardContent application={application} />
+    <div
+      ref={(el) => {
+        dragRef(el);
+        dropRef(el);
+      }}
+      className={cn(isDragging && "opacity-50")}
+    >
+      <KanbanCardContent
+        application={application}
+        isDropTarget={isDropTarget}
+      />
     </div>
   );
 }
 
 export function KanbanCardContent({
   application,
+  isDropTarget,
 }: {
   application: ApplicationRow;
+  isDropTarget?: boolean;
 }) {
   const salary = formatSalary(
     application.salary_min,
@@ -33,7 +50,13 @@ export function KanbanCardContent({
   );
 
   return (
-    <Card size="sm" className="cursor-grab active:cursor-grabbing">
+    <Card
+      size="sm"
+      className={cn(
+        "cursor-grab active:cursor-grabbing transition-shadow",
+        isDropTarget && "ring-2 ring-primary",
+      )}
+    >
       <CardContent className="flex flex-col gap-1.5">
         <p className="font-medium leading-snug">
           {application.company_name || "Untitled Company"}

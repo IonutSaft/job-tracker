@@ -9,7 +9,9 @@ import type { Database } from "@/lib/database.types";
 
 type ApplicationStatus = Database["public"]["Enums"]["application_status"];
 
-export async function createApplication(data: z.infer<typeof applicationSchema>) {
+export async function createApplication(
+  data: z.infer<typeof applicationSchema>,
+) {
   const parsed = applicationSchema.safeParse(data);
   if (!parsed.success) return { error: parsed.error.message };
 
@@ -112,7 +114,7 @@ export async function deleteApplication(id: string) {
 }
 
 export async function updateApplicationsOrder(
-  updates: { id: string; status: ApplicationStatus; kanban_order: number }[]
+  updates: { id: string; status: ApplicationStatus; kanban_order: number }[],
 ) {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
@@ -129,13 +131,14 @@ export async function updateApplicationsOrder(
         .from("applications")
         .update({ status: u.status, kanban_order: u.kanban_order })
         .eq("id", u.id)
-        .eq("user_id", user.id)
-    )
+        .eq("user_id", user.id),
+    ),
   );
 
   const errors = results.filter((r) => r.error);
-  if (errors.length > 0) return { error: errors.map((e) => e.error?.message).join(", ") };
+  if (errors.length > 0)
+    return { error: errors.map((e) => e.error?.message).join(", ") };
 
-  revalidatePath("/applications");
+  revalidatePath("/kanban");
   return { success: true };
 }

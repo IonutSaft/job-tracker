@@ -12,9 +12,11 @@ import {
   createApplication,
   updateApplication,
   deleteApplication,
+  updateApplicationsOrder,
 } from "@/lib/actions/applications";
 import type { ApplicationFormData } from "@/lib/schemas/applications";
 import type { Database } from "@/lib/database.types";
+import { toast } from "sonner";
 
 type Application = Database["public"]["Tables"]["applications"]["Row"];
 
@@ -131,6 +133,70 @@ export function useDeleteApplication() {
           queryClient.setQueryData(key, data);
         }
       }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["applications"] });
+    },
+  });
+}
+
+export function useKanbanApplications(initialData: Application[]) {
+  return useQuery<Application[]>({
+    queryKey: ["applications", "kanban"],
+    queryFn: async () => {
+      const supabase = createClient();
+      const { data } = await supabase
+        .from("applications")
+        .select("*")
+        .order("kanban_order", { ascending: true })
+        .order("applied_at", { ascending: false });
+      return data ?? [];
+    },
+    initialData,
+  });
+}
+
+export function useReorderApplications() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: updateApplicationsOrder,
+    onMutate: async (updates) => {
+      await queryClient.cancelQueries({ queryKey: ["applications"] });
+
+      const previous = queryClient.getQueriesData<Application[]>({
+        queryKey: ["applications"],
+      });
+
+      queryClient.setQueryData<Application[]>(
+        ["applications", "kanban"],
+        (old) => {
+          if (!old) return old;
+          const updated = old.map((app) => {
+            const update = updates.find((u) => u.id === app.id);
+            if (update) {
+              return {
+                ...app,
+                status: update.status,
+                kanban_order: update.kanban_order,
+              };
+            }
+            return app;
+          });
+          updated.sort((a, b) => a.kanban_order - b.kanban_order);
+          return updated;
+        },
+      );
+
+      return { previous };
+    },
+    onError: (_err, _updates, context) => {
+      if (context?.previous) {
+        for (const [key, data] of context.previous) {
+          queryClient.setQueryData(key, data);
+        }
+      }
+      toast.error("Failed to reorder cards");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["applications"] });
