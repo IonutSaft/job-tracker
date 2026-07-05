@@ -1,3 +1,6 @@
+"use client";
+
+import { useDraggable } from "@dnd-kit/react";
 import { format } from "date-fns";
 import type { Database } from "@/lib/database.types";
 import { formatSalary } from "@/lib/format";
@@ -5,7 +8,20 @@ import { Card, CardContent } from "@/components/ui/card";
 
 type ApplicationRow = Database["public"]["Tables"]["applications"]["Row"];
 
-export function KanbanCard({
+export function KanbanCard({ application }: { application: ApplicationRow }) {
+  const { ref, isDragging } = useDraggable({
+    id: application.id,
+    data: { application },
+  });
+
+  return (
+    <div ref={ref} className={isDragging ? "opacity-50" : undefined}>
+      <KanbanCardContent application={application} />
+    </div>
+  );
+}
+
+export function KanbanCardContent({
   application,
 }: {
   application: ApplicationRow;
@@ -17,7 +33,7 @@ export function KanbanCard({
   );
 
   return (
-    <Card size="sm">
+    <Card size="sm" className="cursor-grab active:cursor-grabbing">
       <CardContent className="flex flex-col gap-1.5">
         <p className="font-medium leading-snug">
           {application.company_name || "Untitled Company"}

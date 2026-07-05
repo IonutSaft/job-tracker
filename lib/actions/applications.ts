@@ -5,6 +5,9 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 import { applicationSchema } from "@/lib/schemas/applications";
+import type { Database } from "@/lib/database.types";
+
+type ApplicationStatus = Database["public"]["Enums"]["application_status"];
 
 export async function createApplication(data: z.infer<typeof applicationSchema>) {
   const parsed = applicationSchema.safeParse(data);
@@ -103,6 +106,35 @@ export async function deleteApplication(id: string) {
     .eq("user_id", user.id);
 
   if (error) return { error: error.message };
+
+  revalidatePath("/applications");
+  return { success: true };
+}
+
+export async function updateApplicationsOrder(
+  updates: { id: string; status: ApplicationStatus; kanban_order: number }[]
+) {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) return { error: "Not authenticated" };
+
+  const results = await Promise.all(
+    updates.map((u) =>
+      supabase
+        .from("applications")
+        .update({ status: u.status, kanban_order: u.kanban_order })
+        .eq("id", u.id)
+        .eq("user_id", user.id)
+    )
+  );
+
+  const errors = results.filter((r) => r.error);
+  if (errors.length > 0) return { error: errors.map((e) => e.error?.message).join(", ") };
 
   revalidatePath("/applications");
   return { success: true };
