@@ -2,11 +2,13 @@
 
 import { useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import Link from "next/link";
 import { format } from "date-fns";
 import {
   ArrowUpDown,
   ArrowUp,
   ArrowDown,
+  Eye,
 } from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
@@ -14,8 +16,8 @@ import { statusConfig } from "@/lib/config";
 import { workTypeLabels, formatSalary } from "@/lib/format";
 import { useApplications } from "@/hooks/use-applications";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
-import { ViewApplicationDialog } from "@/components/applications/view-application-dialog";
 import { DeleteApplicationDialog } from "@/components/applications/delete-application-dialog";
 import {
   Select,
@@ -191,7 +193,11 @@ export function ApplicationsTable({
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
-                    <ViewApplicationDialog application={app} />
+                    <Link href={`/applications/${app.id}`}>
+                      <Button variant="ghost" size="icon">
+                        <Eye />
+                      </Button>
+                    </Link>
                     <EditApplicationDialog application={app} />
                     <DeleteApplicationDialog application={app} />
                   </div>
