@@ -1,7 +1,10 @@
 import { Suspense } from "react";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
 
+import {
+  getSupabaseClient,
+  getCurrentUser,
+  getApplications,
+} from "@/lib/data";
 import { ApplicationsTable } from "@/components/applications/applications-table";
 import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 
@@ -20,12 +23,8 @@ export default async function Page(props: {
   searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const searchParams = await props.searchParams;
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = await getSupabaseClient();
+  const user = await getCurrentUser(supabase);
 
   const sortByParam = searchParams?.sortBy;
   const sortBy =
@@ -40,18 +39,15 @@ export default async function Page(props: {
   const statusParam = searchParams?.status;
   const statusFilter = typeof statusParam === "string" ? statusParam : "";
 
-  let query = supabase
-    .from("applications")
-    .select("*")
-    .eq("user_id", user?.id);
-
-  if (statusFilter) {
-    query = query.eq("status", statusFilter);
-  }
-
-  query = query.order(sortBy, { ascending: sortDir === "asc" });
-
-  const { data: applications } = await query;
+  const { data: applications } = await getApplications(
+    supabase,
+    user?.id,
+    {
+      status: statusFilter || undefined,
+      orderBy: sortBy,
+      ascending: sortDir === "asc",
+    },
+  );
 
   return (
     <div className="p-6">

@@ -1,9 +1,15 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
 
+import {
+  getSupabaseClient,
+  getCurrentUser,
+  getApplication,
+  getInterviewRounds,
+  getContacts,
+  getActivityLogs,
+} from "@/lib/data";
 import { ApplicationCard } from "@/components/applications/application-card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -12,36 +18,16 @@ export default async function Page(props: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await props.params;
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = await getSupabaseClient();
+  const user = await getCurrentUser(supabase);
   if (!user) notFound();
 
   const [applicationResult, roundsResult, contactsResult, activityResult] =
     await Promise.all([
-      supabase
-        .from("applications")
-        .select("*")
-        .eq("id", id)
-        .eq("user_id", user.id)
-        .single(),
-      supabase
-        .from("interview_rounds")
-        .select("*")
-        .eq("application_id", id)
-        .order("round_order", { ascending: true }),
-      supabase
-        .from("contacts")
-        .select("*")
-        .eq("application_id", id),
-      supabase
-        .from("activity_logs")
-        .select("*")
-        .eq("application_id", id)
-        .order("created_at", { ascending: false }),
+      getApplication(supabase, id, user.id),
+      getInterviewRounds(supabase, id),
+      getContacts(supabase, id),
+      getActivityLogs(supabase, id),
     ]);
 
   const application = applicationResult.data;

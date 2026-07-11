@@ -1,22 +1,21 @@
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-
+import {
+  getSupabaseClient,
+  getCurrentUser,
+  getApplications,
+} from "@/lib/data";
 import { KanbanBoard } from "@/components/kanban/kanban-board";
 
 export default async function Page() {
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = await getSupabaseClient();
+  const user = await getCurrentUser(supabase);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { data: applications } = await supabase
-    .from("applications")
-    .select("*")
-    .eq("user_id", user?.id)
-    .order("kanban_order", { ascending: true })
-    .order("applied_at", { ascending: false });
+  const query = getApplications(supabase, user?.id, {
+    orderBy: "kanban_order",
+    ascending: true,
+  });
+  const { data: applications } = await query.order("applied_at", {
+    ascending: false,
+  });
 
   return (
     <div className="p-6">
