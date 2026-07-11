@@ -13,6 +13,7 @@ import {
 import { ApplicationCard } from "@/components/applications/application-card";
 import { InterviewRoundsSection } from "@/components/applications/interview-rounds-section";
 import { ContactsSection } from "@/components/applications/contacts-section";
+import { ActivityLogSection } from "@/components/applications/activity-log-section";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
@@ -59,7 +60,7 @@ export default async function Page(props: {
           <TabsTrigger value="contacts">
             Contacts
           </TabsTrigger>
-          <TabsTrigger value="activity" disabled>
+          <TabsTrigger value="activity">
             Activity
           </TabsTrigger>
         </TabsList>
@@ -78,7 +79,12 @@ export default async function Page(props: {
             initialContacts={contacts}
           />
         </TabsContent>
-        <TabsContent value="activity" className="pt-4" />
+        <TabsContent value="activity" className="pt-4">
+          <ActivityLogSection
+            applicationId={id}
+            initialActivityLogs={activityLogs}
+          />
+        </TabsContent>
       </Tabs>
     </div>
   );
