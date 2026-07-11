@@ -4,12 +4,7 @@ import { useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
-import {
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  Eye,
-} from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
@@ -195,7 +190,7 @@ export function ApplicationsTable({
                   <div className="flex items-center gap-1">
                     <Link href={`/applications/${app.id}`}>
                       <Button variant="ghost" size="icon">
-                        <Eye />
+                        <ExternalLink />
                       </Button>
                     </Link>
                     <EditApplicationDialog application={app} />
