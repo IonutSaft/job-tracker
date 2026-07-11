@@ -12,6 +12,7 @@ import {
 } from "@/lib/data";
 import { ApplicationCard } from "@/components/applications/application-card";
 import { InterviewRoundsSection } from "@/components/applications/interview-rounds-section";
+import { ContactsSection } from "@/components/applications/contacts-section";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
@@ -55,7 +56,7 @@ export default async function Page(props: {
           <TabsTrigger value="rounds">
             Interview Rounds
           </TabsTrigger>
-          <TabsTrigger value="contacts" disabled>
+          <TabsTrigger value="contacts">
             Contacts
           </TabsTrigger>
           <TabsTrigger value="activity" disabled>
@@ -71,7 +72,12 @@ export default async function Page(props: {
             initialRounds={rounds}
           />
         </TabsContent>
-        <TabsContent value="contacts" className="pt-4" />
+        <TabsContent value="contacts" className="pt-4">
+          <ContactsSection
+            applicationId={id}
+            initialContacts={contacts}
+          />
+        </TabsContent>
         <TabsContent value="activity" className="pt-4" />
       </Tabs>
     </div>
