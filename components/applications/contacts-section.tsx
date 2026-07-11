@@ -7,10 +7,7 @@ import { Plus, Pencil, Trash2, ExternalLink, Mail } from "lucide-react";
 import { toast } from "sonner";
 
 import type { Database } from "@/lib/database.types";
-import {
-  contactSchema,
-  type ContactFormData,
-} from "@/lib/schemas/contacts";
+import { contactSchema, type ContactFormData } from "@/lib/schemas/contacts";
 import {
   useContacts,
   useCreateContact,
@@ -18,17 +15,13 @@ import {
   useDeleteContact,
 } from "@/hooks/use-contacts";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogClose,
   DialogFooter,
 } from "@/components/ui/dialog";
