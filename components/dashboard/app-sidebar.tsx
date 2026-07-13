@@ -10,15 +10,10 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
 } from "@/components/ui/sidebar";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import Image from "next/image";
 import Link from "next/link";
+import { NavUser } from "./nav-user";
 
 export async function AppSidebar() {
   const cookieStore = await cookies();
@@ -28,8 +23,14 @@ export async function AppSidebar() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const displayName = user?.user_metadata.full_name ?? "Unknown User";
-  const userAvatar = user?.user_metadata.avatar_url ?? "";
+  const profile = user
+    ? await supabase
+        .from("profiles")
+        .select("full_name, avatar_url")
+        .eq("id", user.id)
+        .single()
+        .then((r) => r.data)
+    : null;
 
   return (
     <Sidebar>
@@ -61,40 +62,7 @@ export async function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <Tooltip>
-              <TooltipTrigger
-                render={
-                  <SidebarMenuButton className="py-6">
-                    {user ? (
-                      <div className="flex flex-row items-center gap-2">
-                        {userAvatar && (
-                          <Image
-                            src={userAvatar}
-                            alt="User Avatar"
-                            className="h-8 w-8 rounded-full"
-                            width={16}
-                            height={16}
-                            priority
-                          ></Image>
-                        )}
-                        <p className="text-lg">{displayName}</p>
-                      </div>
-                    ) : (
-                      <div>
-                        <span>Uknown user</span>
-                      </div>
-                    )}
-                  </SidebarMenuButton>
-                }
-              ></TooltipTrigger>
-              <TooltipContent>
-                <p>Go to user page</p>
-              </TooltipContent>
-            </Tooltip>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser user={user} profile={profile} />
       </SidebarFooter>
     </Sidebar>
   );
