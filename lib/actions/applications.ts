@@ -40,7 +40,7 @@ export async function createApplication(
       : null,
     user_id: user.id,
     kanban_order: 0,
-    resume_id: null,
+    resume_id: parsed.data.resume_id ?? null,
   });
 
   if (error) return { error: error.message };
@@ -81,6 +81,7 @@ export async function updateApplication(
       applied_at: parsed.data.applied_at
         ? new Date(parsed.data.applied_at).toISOString()
         : null,
+      resume_id: parsed.data.resume_id ?? null,
     })
     .eq("id", id)
     .eq("user_id", user.id);

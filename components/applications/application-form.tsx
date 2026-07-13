@@ -8,6 +8,7 @@ import {
   type ApplicationFormData,
 } from "@/lib/schemas/applications";
 import { statusConfig } from "@/lib/config";
+import { useResumes } from "@/hooks/use-resumes";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -51,6 +52,7 @@ export function ApplicationForm({
   });
 
   const watchStatus = useWatch({ control, name: "status" });
+  const { data: resumes } = useResumes([]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -222,6 +224,39 @@ export function ApplicationForm({
               {errors.job_url && (
                 <p className="text-sm text-destructive">
                   {errors.job_url.message}
+                </p>
+              )}
+            </Field>
+            <Field>
+              <Label htmlFor="resume_id">Resume</Label>
+              <Controller
+                name="resume_id"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    id="resume_id"
+                    value={field.value ?? ""}
+                    onValueChange={(value) =>
+                      field.onChange(value || null)
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select resume" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">None</SelectItem>
+                      {resumes.map((resume) => (
+                        <SelectItem key={resume.id} value={resume.id}>
+                          {resume.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              {errors.resume_id && (
+                <p className="text-sm text-destructive">
+                  {errors.resume_id.message}
                 </p>
               )}
             </Field>

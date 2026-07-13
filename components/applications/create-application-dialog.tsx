@@ -34,6 +34,7 @@ export function CreateApplicationDialog() {
     salary_max: null,
     notes: null,
     applied_at: null,
+    resume_id: null,
   };
 
   const onSubmit = async (data: ApplicationFormData) => {

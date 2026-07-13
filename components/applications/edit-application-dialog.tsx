@@ -41,6 +41,7 @@ export function EditApplicationDialog({
     salary_max: application.salary_max,
     notes: application.notes,
     applied_at: application.applied_at,
+    resume_id: application.resume_id,
   };
 
   const onSubmit = async (data: ApplicationFormData) => {

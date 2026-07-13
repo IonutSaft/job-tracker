@@ -60,6 +60,17 @@ export function getActivityLogs(
     .order("created_at", { ascending: false });
 }
 
+export function getResumes(
+  supabase: ReturnType<typeof createClient>,
+  userId: string,
+) {
+  return supabase
+    .from("resumes")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+}
+
 export function getApplications(
   supabase: ReturnType<typeof createClient>,
   userId: string | undefined,

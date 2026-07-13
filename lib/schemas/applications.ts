@@ -19,6 +19,7 @@ export const applicationSchema = z.object({
   salary_min: z.number().positive().nullable().optional(),
   salary_max: z.number().positive().nullable().optional(),
   applied_at: z.string().nullable().optional(),
+  resume_id: z.string().nullable().optional(),
 });
 
 export type ApplicationFormData = z.infer<typeof applicationSchema>;
