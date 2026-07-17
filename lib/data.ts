@@ -82,6 +82,17 @@ export function getApplicationResume(
     .single();
 }
 
+export function getProfile(
+  supabase: ReturnType<typeof createClient>,
+  userId: string,
+) {
+  return supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", userId)
+    .single();
+}
+
 export function getApplications(
   supabase: ReturnType<typeof createClient>,
   userId: string | undefined,
