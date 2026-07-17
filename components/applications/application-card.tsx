@@ -6,8 +6,10 @@ import { workTypeLabels, formatSalary } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
+import { ResumeCardView } from "@/components/resumes/resume-card-view";
 
 type Application = Database["public"]["Tables"]["applications"]["Row"];
+type Resume = Database["public"]["Tables"]["resumes"]["Row"];
 
 function Value({
   children,
@@ -27,7 +29,13 @@ function Value({
   return <p className="text-sm">{children}</p>;
 }
 
-export function ApplicationCard({ application }: { application: Application }) {
+export function ApplicationCard({
+  application,
+  resume,
+}: {
+  application: Application;
+  resume?: Resume | null;
+}) {
   const salary = formatSalary(
     application.salary_min,
     application.salary_max,
@@ -114,6 +122,18 @@ export function ApplicationCard({ application }: { application: Application }) {
             <Value fallback="No notes added yet">{application.notes}</Value>
           </Field>
         </div>
+      </div>
+      <div className="mt-5">
+        <Field>
+          <Label>Resume</Label>
+          {resume ? (
+            <ResumeCardView resume={resume} />
+          ) : (
+            <p className="text-sm italic text-muted-foreground">
+              No resume attached
+            </p>
+          )}
+        </Field>
       </div>
     </FieldGroup>
   );

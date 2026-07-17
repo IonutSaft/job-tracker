@@ -6,6 +6,7 @@ import {
   getSupabaseClient,
   getCurrentUser,
   getApplication,
+  getApplicationResume,
   getInterviewRounds,
   getContacts,
   getActivityLogs,
@@ -36,6 +37,10 @@ export default async function Page(props: {
   const application = applicationResult.data;
   if (!application) notFound();
 
+  const resume = application.resume_id
+    ? (await getApplicationResume(supabase, application.resume_id)).data
+    : null;
+
   const rounds = roundsResult.data ?? [];
   const contacts = contactsResult.data ?? [];
   const activityLogs = activityResult.data ?? [];
@@ -65,7 +70,7 @@ export default async function Page(props: {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="info" className="pt-4">
-          <ApplicationCard application={application} />
+          <ApplicationCard application={application} resume={resume} />
         </TabsContent>
         <TabsContent value="rounds" className="pt-4">
           <InterviewRoundsSection

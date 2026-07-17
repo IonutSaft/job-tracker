@@ -71,6 +71,17 @@ export function getResumes(
     .order("created_at", { ascending: false });
 }
 
+export function getApplicationResume(
+  supabase: ReturnType<typeof createClient>,
+  resumeId: string,
+) {
+  return supabase
+    .from("resumes")
+    .select("*")
+    .eq("id", resumeId)
+    .single();
+}
+
 export function getApplications(
   supabase: ReturnType<typeof createClient>,
   userId: string | undefined,
