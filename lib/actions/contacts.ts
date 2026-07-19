@@ -34,7 +34,7 @@ export async function createContact(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -68,7 +68,7 @@ export async function updateContact(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -90,6 +90,6 @@ export async function deleteContact(id: string) {
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }

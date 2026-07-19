@@ -67,7 +67,7 @@ export async function uploadResume(formData: FormData) {
     return { error: dbError.message };
   }
 
-  revalidatePath("/resumes");
+  revalidatePath("/dashboard/resumes");
   return { success: true };
 }
 
@@ -106,7 +106,7 @@ export async function deleteResume(id: string) {
 
   if (dbError) return { error: dbError.message };
 
-  revalidatePath("/resumes");
+  revalidatePath("/dashboard/resumes");
   return { success: true };
 }
 

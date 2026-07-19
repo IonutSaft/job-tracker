@@ -49,13 +49,13 @@ export async function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <Link href="/applications">Applications</Link>
+                <Link href="/dashboard">Home</Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/kanban">Kanban Board</Link>
+                <Link href="/dashboard/applications">Applications</Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link href="/">Landing Page</Link>
+                <Link href="/dashboard/kanban">Kanban Board</Link>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

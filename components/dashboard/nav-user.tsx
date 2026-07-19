@@ -68,10 +68,10 @@ export function NavUser({
               </div>
             </div>
             <DropdownMenuSeparator />
-            <DropdownMenuItem render={<Link href="/resumes" />}>
+            <DropdownMenuItem render={<Link href="/dashboard/resumes" />}>
               Resumes
             </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/settings" />}>
+            <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
               Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />

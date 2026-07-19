@@ -47,7 +47,7 @@ export async function createInterviewRound(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -64,8 +64,7 @@ export async function updateInterviewRoundOutcome(
   } = await supabase.auth.getUser();
   if (userError || !user) return { error: "Not authenticated" };
 
-  const completedAt =
-    outcome === "pending" ? null : new Date().toISOString();
+  const completedAt = outcome === "pending" ? null : new Date().toISOString();
 
   const { error } = await supabase
     .from("interview_rounds")
@@ -75,7 +74,7 @@ export async function updateInterviewRoundOutcome(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -97,6 +96,6 @@ export async function deleteInterviewRound(id: number) {
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }

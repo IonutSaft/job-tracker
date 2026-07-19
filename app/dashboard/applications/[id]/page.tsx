@@ -18,9 +18,7 @@ import { ActivityLogSection } from "@/components/applications/activity-log-secti
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 
-export default async function Page(props: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
@@ -48,7 +46,7 @@ export default async function Page(props: {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <Link href="/applications">
+        <Link href="/dashboard/applications">
           <Button variant="ghost" className="-ml-2 gap-1 text-muted-foreground">
             <ArrowLeft className="size-4" />
             Back to Applications
@@ -59,30 +57,18 @@ export default async function Page(props: {
       <Tabs defaultValue="info">
         <TabsList>
           <TabsTrigger value="info">Info</TabsTrigger>
-          <TabsTrigger value="rounds">
-            Interview Rounds
-          </TabsTrigger>
-          <TabsTrigger value="contacts">
-            Contacts
-          </TabsTrigger>
-          <TabsTrigger value="activity">
-            Activity
-          </TabsTrigger>
+          <TabsTrigger value="rounds">Interview Rounds</TabsTrigger>
+          <TabsTrigger value="contacts">Contacts</TabsTrigger>
+          <TabsTrigger value="activity">Activity</TabsTrigger>
         </TabsList>
         <TabsContent value="info" className="pt-4">
           <ApplicationCard application={application} resume={resume} />
         </TabsContent>
         <TabsContent value="rounds" className="pt-4">
-          <InterviewRoundsSection
-            applicationId={id}
-            initialRounds={rounds}
-          />
+          <InterviewRoundsSection applicationId={id} initialRounds={rounds} />
         </TabsContent>
         <TabsContent value="contacts" className="pt-4">
-          <ContactsSection
-            applicationId={id}
-            initialContacts={contacts}
-          />
+          <ContactsSection applicationId={id} initialContacts={contacts} />
         </TabsContent>
         <TabsContent value="activity" className="pt-4">
           <ActivityLogSection

@@ -5,11 +5,7 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
-const ALLOWED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-] as const;
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"] as const;
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -91,6 +87,6 @@ export async function updateProfile(formData: FormData) {
 
   if (dbError) return { error: dbError.message };
 
-  revalidatePath("/settings");
+  revalidatePath("/dashboard/settings");
   return { success: true };
 }

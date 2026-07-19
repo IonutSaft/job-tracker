@@ -45,7 +45,7 @@ export async function createApplication(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -88,7 +88,7 @@ export async function updateApplication(
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -110,7 +110,7 @@ export async function deleteApplication(id: string) {
 
   if (error) return { error: error.message };
 
-  revalidatePath("/applications");
+  revalidatePath("/dashboard/applications");
   return { success: true };
 }
 
@@ -140,6 +140,6 @@ export async function updateApplicationsOrder(
   if (errors.length > 0)
     return { error: errors.map((e) => e.error?.message).join(", ") };
 
-  revalidatePath("/kanban");
+  revalidatePath("/dashboard/kanban");
   return { success: true };
 }

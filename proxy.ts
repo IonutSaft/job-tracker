@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/proxy";
 
-const protectedRoutes = ["/dashboard", "/applications", "/kanban"];
+const protectedRoutes = ["/dashboard"];
 const authRoutes = ["/login", "/signup"];
 
 export async function proxy(request: NextRequest) {
@@ -22,7 +22,7 @@ export async function proxy(request: NextRequest) {
 
   if (authRoutes.some((r) => pathname.startsWith(r)) && isAuthenticated) {
     const url = request.nextUrl.clone();
-    url.pathname = "/";
+    url.pathname = "/dashboard";
     return NextResponse.redirect(url);
   }
 

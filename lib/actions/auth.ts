@@ -43,7 +43,7 @@ export async function login(
   });
   if (error) return { error: error.message };
 
-  redirect("/");
+  redirect("/dashboard");
 }
 
 export async function signup(
@@ -70,7 +70,7 @@ export async function signup(
 
   if (error) return { error: error.message };
 
-  if (data.session) redirect("/");
+  if (data.session) redirect("/dashboard");
 
   return { success: true };
 }
