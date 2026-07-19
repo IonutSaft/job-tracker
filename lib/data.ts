@@ -93,6 +93,27 @@ export function getProfile(
     .single();
 }
 
+export async function getDashboardStats(
+  supabase: ReturnType<typeof createClient>,
+  userId: string | undefined,
+) {
+  const { data: applications } = await supabase
+    .from("applications")
+    .select("status")
+    .eq("user_id", userId);
+
+  const total = applications?.length ?? 0;
+  const activeStatuses = ["bookmarked", "applied", "interviewing"];
+  const active = applications?.filter((a) => activeStatuses.includes(a.status ?? "")).length ?? 0;
+  const offers = applications?.filter((a) => a.status === "offer").length ?? 0;
+  const responded = applications?.filter((a) =>
+    ["interviewing", "offer", "rejected"].includes(a.status ?? ""),
+  ).length ?? 0;
+  const responseRate = total > 0 ? Math.round((responded / total) * 100) : 0;
+
+  return { totalApplications: total, activeApplications: active, offersReceived: offers, responseRate };
+}
+
 export function getApplications(
   supabase: ReturnType<typeof createClient>,
   userId: string | undefined,
