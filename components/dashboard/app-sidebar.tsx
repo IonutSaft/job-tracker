@@ -48,7 +48,7 @@ export async function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="font-heading text-xs uppercase tracking-[0.15em] text-muted-foreground">
-            -- PAGES
+            {"// PAGES"}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">

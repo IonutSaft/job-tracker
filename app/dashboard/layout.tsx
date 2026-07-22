@@ -10,9 +10,11 @@ export default function DashboardLayout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger />
-        <TooltipProvider>{children}</TooltipProvider>
+      <main className="flex flex-1 min-h-0 flex-col bg-card">
+        <SidebarTrigger className="shrink-0 text-muted-foreground transition-colors hover:text-primary" />
+        <TooltipProvider>
+          <div className="flex flex-1 min-h-0 flex-col">{children}</div>
+        </TooltipProvider>
       </main>
     </SidebarProvider>
   );

@@ -18,18 +18,22 @@ import {
 export default async function Page() {
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
-  const [stats, funnel, timeline, upcomingInterviews, avgDays] = await Promise.all([
-    getDashboardStats(supabase, user?.id),
-    getApplicationFunnel(supabase, user?.id),
-    getApplicationTimeline(supabase, user?.id),
-    getUpcomingInterviews(supabase, user?.id),
-    getAverageTimeToInterview(supabase, user?.id),
-  ]);
+  const [stats, funnel, timeline, upcomingInterviews, avgDays] =
+    await Promise.all([
+      getDashboardStats(supabase, user?.id),
+      getApplicationFunnel(supabase, user?.id),
+      getApplicationTimeline(supabase, user?.id),
+      getUpcomingInterviews(supabase, user?.id),
+      getAverageTimeToInterview(supabase, user?.id),
+    ]);
 
   return (
-    <div className="p-6">
-      <h1 className="mb-6 text-2xl font-bold">Dashboard</h1>
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <h1 className="shrink-0 font-heading text-xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_8px_rgba(0,255,65,0.4)]">
+        {"// DASHBOARD"}
+      </h1>
+
+      <div className="shrink-0 grid grid-cols-1 gap-4 sm:grid-cols-4">
         <StatCard
           label="Total Applications"
           value={stats.totalApplications}
@@ -51,11 +55,13 @@ export default async function Page() {
           icon={<Percent className="size-4" />}
         />
       </div>
-      <div className="mb-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+
+      <div className="min-h-0 flex-[3] grid grid-cols-1 gap-4 max-lg:min-h-[300px] lg:grid-cols-2">
         <FunnelChart data={funnel} />
         <ApplicationsTimelineChart data={timeline} />
       </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+
+      <div className="min-h-0 flex-[2] grid grid-cols-1 gap-4 max-lg:min-h-[200px] lg:grid-cols-2">
         <UpcomingInterviews data={upcomingInterviews} />
         <AverageTimeCard value={avgDays} />
       </div>

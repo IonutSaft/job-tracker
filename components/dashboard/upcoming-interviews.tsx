@@ -29,7 +29,10 @@ function formatDate(isoString: string): string {
   tomorrow.setDate(tomorrow.getDate() + 1);
   const isTomorrow = d.toDateString() === tomorrow.toDateString();
 
-  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+  const time = d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  });
 
   if (isToday) return `Today at ${time}`;
   if (isTomorrow) return `Tomorrow at ${time}`;
@@ -45,28 +48,32 @@ function formatDate(isoString: string): string {
 
 export function UpcomingInterviews({ data }: { data: UpcomingInterview[] }) {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Upcoming Interviews</CardTitle>
+    <Card className="flex flex-col rounded-none border border-border bg-card min-h-0">
+      <CardHeader className="shrink-0">
+        <CardTitle className="font-heading text-xs uppercase tracking-wider">
+          {"// UPCOMING INTERVIEWS"}
+        </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex-1 min-h-0 overflow-auto">
         {data.length === 0 ? (
           <div className="flex flex-col items-center gap-2 py-8 text-center">
             <CalendarDays className="size-8 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">No upcoming interviews.</p>
+            <p className="font-mono text-sm text-muted-foreground">
+              No upcoming interviews.
+            </p>
           </div>
         ) : (
-          <ul className="space-y-3">
+          <ul className="space-y-2">
             {data.map((interview) => (
               <li
                 key={interview.id}
-                className="flex items-center justify-between gap-4 rounded-lg border p-3"
+                className="flex items-center justify-between gap-4 rounded-none border border-border bg-muted/30 p-2"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium">
+                  <p className="font-heading text-xs uppercase tracking-wider text-foreground">
                     {interview.company_name ?? "Unknown Company"}
                   </p>
-                  <p className="truncate text-xs text-muted-foreground">
+                  <p className="mt-0.5 truncate font-mono text-[10px] text-muted-foreground">
                     {interview.role_title ?? "Unknown Role"}
                   </p>
                 </div>
@@ -77,7 +84,7 @@ export function UpcomingInterviews({ data }: { data: UpcomingInterview[] }) {
                       "Round"}
                   </Badge>
                   {interview.scheduled_at && (
-                    <span className="text-xs text-muted-foreground">
+                    <span className="font-mono text-[10px] text-muted-foreground">
                       {formatDate(interview.scheduled_at)}
                     </span>
                   )}

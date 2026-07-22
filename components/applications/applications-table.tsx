@@ -189,7 +189,11 @@ export function ApplicationsTable({
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Link href={`/dashboard/applications/${app.id}`}>
-                      <Button variant="ghost" size="icon">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="cursor-pointer"
+                      >
                         <ExternalLink />
                       </Button>
                     </Link>
