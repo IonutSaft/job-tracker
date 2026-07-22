@@ -45,42 +45,72 @@ export function NavUser({
                 <div className="flex items-center gap-2">
                   <Avatar className="size-8">
                     <AvatarImage src={avatarUrl} alt="User Avatar" />
-                    <AvatarFallback>{initials}</AvatarFallback>
+                    <AvatarFallback className="font-heading text-xs">
+                      {initials}
+                    </AvatarFallback>
                   </Avatar>
-                  <p className="text-lg">{displayName}</p>
+                  <p className="font-heading text-sm uppercase tracking-wider">
+                    {displayName}
+                  </p>
                 </div>
               </SidebarMenuButton>
             }
           />
-          <DropdownMenuContent align="end" className="w-56">
-            <div className="flex items-center gap-2 px-2 py-1.5">
+          <DropdownMenuContent
+            align="end"
+            className="w-56 rounded-none border border-border bg-popover"
+          >
+            <div className="flex items-center gap-2 border-b border-border px-2 py-2">
               <Avatar className="size-10">
                 <AvatarImage src={avatarUrl} alt="User Avatar" />
-                <AvatarFallback className="text-base">
+                <AvatarFallback className="font-heading text-sm">
                   {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col">
-                <span className="text-sm font-medium">{displayName}</span>
-                <span className="text-xs text-muted-foreground">
+                <span className="font-heading text-xs uppercase tracking-wider text-popover-foreground">
+                  {displayName}
+                </span>
+                <span className="font-mono text-[10px] text-muted-foreground">
                   {user.email}
                 </span>
               </div>
             </div>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem render={<Link href="/dashboard/resumes" />}>
-              Resumes
-            </DropdownMenuItem>
-            <DropdownMenuItem render={<Link href="/dashboard/settings" />}>
-              Settings
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator className="hidden" />
+            <div className="p-1 mt-1">
+              <DropdownMenuItem
+                render={
+                  <Link
+                    href="/dashboard/resumes"
+                    className="font-heading text-xs uppercase tracking-wider text-popover-foreground transition-colors hover:text-primary"
+                  />
+                }
+              >
+                &gt; Resumes
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                render={
+                  <Link
+                    href="/dashboard/settings"
+                    className="font-heading text-xs uppercase tracking-wider text-popover-foreground transition-colors hover:text-primary"
+                  />
+                }
+              >
+                &gt; Settings
+              </DropdownMenuItem>
+            </div>
+            <DropdownMenuSeparator className="mx-1 w-auto border-border" />
             <form action={logout}>
               <DropdownMenuItem
                 nativeButton
-                render={<button type="submit" className="w-full text-left" />}
+                render={
+                  <button
+                    type="submit"
+                    className="w-full text-left font-heading text-xs uppercase tracking-wider text-destructive transition-colors hover:text-destructive/80"
+                  />
+                }
               >
-                Logout
+                &gt; Logout
               </DropdownMenuItem>
             </form>
           </DropdownMenuContent>
