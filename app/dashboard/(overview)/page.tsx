@@ -27,6 +27,27 @@ export default async function Page() {
       getAverageTimeToInterview(supabase, user?.id),
     ]);
 
+  const responseRateColor = (rate: number) => {
+    switch (true) {
+      case rate <= 10:
+        return "text-red-500";
+      case rate <= 25:
+        return "text-red-300";
+      case rate <= 40:
+        return "text-orange-500";
+      case rate <= 50:
+        return "text-orange-300";
+      case rate <= 60:
+        return "text-yellow-500";
+      case rate <= 74:
+        return "text-yellow-300";
+      case rate <= 85:
+        return "text-green-300";
+      default:
+        return "text-green-500";
+    }
+  };
+
   return (
     <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
       <h1 className="shrink-0 font-heading text-xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_8px_rgba(0,255,65,0.4)]">
@@ -53,6 +74,7 @@ export default async function Page() {
           label="Response Rate"
           value={`${stats.responseRate}%`}
           icon={<Percent className="size-4" />}
+          valueClassName={responseRateColor(stats.responseRate)}
         />
       </div>
 

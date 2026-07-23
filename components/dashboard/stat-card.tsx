@@ -5,9 +5,16 @@ interface StatCardProps {
   value: string | number;
   icon: React.ReactNode;
   description?: string;
+  valueClassName?: string;
 }
 
-export function StatCard({ label, value, icon, description }: StatCardProps) {
+export function StatCard({
+  label,
+  value,
+  icon,
+  description,
+  valueClassName,
+}: StatCardProps) {
   return (
     <Card size="sm" className="rounded-none border border-border bg-card">
       <CardHeader className="flex-row items-center justify-between gap-2">
@@ -17,7 +24,9 @@ export function StatCard({ label, value, icon, description }: StatCardProps) {
         <span className="text-primary">{icon}</span>
       </CardHeader>
       <CardContent>
-        <div className="font-sans text-2xl text-primary [text-shadow:0_0_6px_rgba(0,255,65,0.3)]">
+        <div
+          className={`font-sans text-2xl  ${valueClassName || "text-primary [text-shadow:0_0_6px_rgba(0,255,65,0.3)]"}`}
+        >
           {value}
         </div>
         {description && (
