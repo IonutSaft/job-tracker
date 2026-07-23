@@ -1,12 +1,7 @@
 import { Suspense } from "react";
 
-import {
-  getSupabaseClient,
-  getCurrentUser,
-  getApplications,
-} from "@/lib/data";
+import { getSupabaseClient, getCurrentUser, getApplications } from "@/lib/data";
 import { ApplicationsTable } from "@/components/applications/applications-table";
-import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 
 const validSortColumns = [
   "company_name",
@@ -39,22 +34,17 @@ export default async function Page(props: {
   const statusParam = searchParams?.status;
   const statusFilter = typeof statusParam === "string" ? statusParam : "";
 
-  const { data: applications } = await getApplications(
-    supabase,
-    user?.id,
-    {
-      status: statusFilter || undefined,
-      orderBy: sortBy,
-      ascending: sortDir === "asc",
-    },
-  );
+  const { data: applications } = await getApplications(supabase, user?.id, {
+    status: statusFilter || undefined,
+    orderBy: sortBy,
+    ascending: sortDir === "asc",
+  });
 
   return (
-    <div className="p-6">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Applications</h1>
-        <CreateApplicationDialog />
-      </div>
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <h1 className="shrink-0 font-heading text-xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_8px_rgba(0,255,65,0.4)]">
+        {"// APPLICATIONS"}
+      </h1>
       <Suspense fallback={null}>
         <ApplicationsTable initialData={applications ?? []} />
       </Suspense>

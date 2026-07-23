@@ -43,14 +43,16 @@ export function DeleteApplicationDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="cursor-pointer">
             <Trash2 />
           </Button>
         }
       />
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="rounded-none sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Delete Application</DialogTitle>
+          <DialogTitle className="font-heading text-xs uppercase tracking-wider">
+            {"// DELETE APPLICATION"}
+          </DialogTitle>
           <DialogDescription>
             Are you sure you want to delete the application at{" "}
             {application.company_name ?? "this company"}? This action cannot be
@@ -60,7 +62,7 @@ export function DeleteApplicationDialog({
         <DialogFooter>
           <DialogClose
             render={
-              <Button variant="outline" type="button" disabled={deleteMutation.isPending}>
+              <Button variant="outline" type="button" className="rounded-none" disabled={deleteMutation.isPending}>
                 Cancel
               </Button>
             }
@@ -68,6 +70,7 @@ export function DeleteApplicationDialog({
           <Button
             variant="destructive"
             type="button"
+            className="rounded-none"
             disabled={deleteMutation.isPending}
             onClick={handleDelete}
           >

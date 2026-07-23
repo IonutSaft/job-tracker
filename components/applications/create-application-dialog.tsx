@@ -51,15 +51,17 @@ export function CreateApplicationDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button>
+          <Button className="rounded-none">
             <PlusIcon />
             New Application
           </Button>
         }
       />
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="rounded-none sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>New Application</DialogTitle>
+          <DialogTitle className="font-heading text-xs uppercase tracking-wider">
+            {"// NEW APPLICATION"}
+          </DialogTitle>
           <DialogDescription>
             Add a new job application to track.
           </DialogDescription>

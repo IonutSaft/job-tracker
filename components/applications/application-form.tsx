@@ -378,12 +378,12 @@ export function ApplicationForm({
       <DialogFooter>
         <DialogClose
           render={
-            <Button variant="outline" type="button">
+            <Button variant="outline" type="button" className="rounded-none">
               Cancel
             </Button>
           }
         />
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" className="rounded-none" disabled={isSubmitting}>
           {isSubmitting ? submittingLabel : submitLabel}
         </Button>
       </DialogFooter>

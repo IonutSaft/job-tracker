@@ -61,14 +61,16 @@ export function EditApplicationDialog({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="cursor-pointer">
             <Pencil />
           </Button>
         }
       />
-      <DialogContent className="sm:max-w-2xl">
+      <DialogContent className="rounded-none sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Edit Application</DialogTitle>
+          <DialogTitle className="font-heading text-xs uppercase tracking-wider">
+            {"// EDIT APPLICATION"}
+          </DialogTitle>
           <DialogDescription>
             Update the details for {application.company_name ?? "this application"}.
           </DialogDescription>

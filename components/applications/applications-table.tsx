@@ -12,6 +12,8 @@ import { workTypeLabels, formatSalary } from "@/lib/format";
 import { useApplications } from "@/hooks/use-applications";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
 import { DeleteApplicationDialog } from "@/components/applications/delete-application-dialog";
 import {
@@ -101,16 +103,16 @@ export function ApplicationsTable({
   );
 
   return (
-    <div>
-      <div className="mb-4">
+    <Card className="flex flex-col rounded-none border border-border bg-card min-h-0">
+      <div className="shrink-0 flex items-center justify-between border-b border-border px-3 pt-1 pb-3">
         <Select
           value={statusFilter}
           onValueChange={(value) => setSearchParams({ status: value || null })}
         >
-          <SelectTrigger className="w-44">
+          <SelectTrigger className="w-44 rounded-none border-border bg-card font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="rounded-none border-border bg-popover">
             {statusFilterOptions.map((option) => (
               <SelectItem key={option.value} value={option.value}>
                 {option.label}
@@ -118,94 +120,101 @@ export function ApplicationsTable({
             ))}
           </SelectContent>
         </Select>
+        <CreateApplicationDialog />
       </div>
-
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {sortableColumns.map((col) => (
-              <TableHead
-                key={col.key}
-                className="cursor-pointer select-none"
-                onClick={() => handleSort(col.key)}
-              >
-                <span className="inline-flex items-center gap-1">
-                  {col.label}
-                  {sortBy === col.key ? (
-                    sortDir === "asc" ? (
-                      <ArrowUp className="size-3" />
-                    ) : (
-                      <ArrowDown className="size-3" />
-                    )
-                  ) : (
-                    <ArrowUpDown className="size-3" />
-                  )}
-                </span>
-              </TableHead>
-            ))}
-            <TableHead>Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {applications.length === 0 ? (
+      <CardContent className="flex-1 min-h-0 overflow-auto p-0">
+        <Table>
+          <TableHeader className="sticky top-0 z-10 bg-card [&_tr]:border-b-0">
             <TableRow>
-              <TableCell
-                colSpan={7}
-                className="h-24 text-center text-muted-foreground"
-              >
-                No applications match your filter.
-              </TableCell>
+              {sortableColumns.map((col) => (
+                <TableHead
+                  key={col.key}
+                  className="cursor-pointer select-none font-heading text-[10px] uppercase tracking-wider text-muted-foreground h-8 px-2"
+                  onClick={() => handleSort(col.key)}
+                >
+                  <span className="inline-flex items-center gap-1">
+                    {col.label}
+                    {sortBy === col.key ? (
+                      sortDir === "asc" ? (
+                        <ArrowUp className="size-3" />
+                      ) : (
+                        <ArrowDown className="size-3" />
+                      )
+                    ) : (
+                      <ArrowUpDown className="size-3" />
+                    )}
+                  </span>
+                </TableHead>
+              ))}
+              <TableHead className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground h-8 px-2">
+                Actions
+              </TableHead>
             </TableRow>
-          ) : (
-            applications.map((app) => (
-              <TableRow key={app.id}>
-                <TableCell className="font-medium">
-                  {app.company_name}
-                </TableCell>
-                <TableCell>{app.role_title}</TableCell>
-                <TableCell>
-                  {app.status && (
-                    <Badge variant={statusConfig[app.status].variant}>
-                      {statusConfig[app.status].label}
-                    </Badge>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {app.location}
-                  {app.work_type && ` (${workTypeLabels[app.work_type]})`}
-                </TableCell>
-                <TableCell>
-                  {app.applied_at
-                    ? format(new Date(app.applied_at), "MMM d, yyyy")
-                    : "-"}
-                </TableCell>
-                <TableCell>
-                  {formatSalary(
-                    app.salary_min,
-                    app.salary_max,
-                    app.salary_currency,
-                  ) ?? "-"}
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Link href={`/dashboard/applications/${app.id}`}>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="cursor-pointer"
-                      >
-                        <ExternalLink />
-                      </Button>
-                    </Link>
-                    <EditApplicationDialog application={app} />
-                    <DeleteApplicationDialog application={app} />
-                  </div>
+          </TableHeader>
+          <TableBody>
+            {applications.length === 0 ? (
+              <TableRow>
+                <TableCell
+                  colSpan={7}
+                  className="h-24 text-center font-mono text-sm text-muted-foreground"
+                >
+                  No applications match your filter.
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
-    </div>
+            ) : (
+              applications.map((app) => (
+                <TableRow
+                  key={app.id}
+                  className="border-border hover:bg-muted/30"
+                >
+                  <TableCell className="font-medium">
+                    {app.company_name}
+                  </TableCell>
+                  <TableCell>{app.role_title}</TableCell>
+                  <TableCell>
+                    {app.status && (
+                      <Badge variant={statusConfig[app.status].variant}>
+                        {statusConfig[app.status].label}
+                      </Badge>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {app.location}
+                    {app.work_type && ` (${workTypeLabels[app.work_type]})`}
+                  </TableCell>
+                  <TableCell>
+                    {app.applied_at
+                      ? format(new Date(app.applied_at), "MMM d, yyyy")
+                      : "-"}
+                  </TableCell>
+                  <TableCell>
+                    {formatSalary(
+                      app.salary_min,
+                      app.salary_max,
+                      app.salary_currency,
+                    ) ?? "-"}
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1">
+                      <Link href={`/dashboard/applications/${app.id}`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="cursor-pointer"
+                        >
+                          <ExternalLink />
+                        </Button>
+                      </Link>
+                      <EditApplicationDialog application={app} />
+                      <DeleteApplicationDialog application={app} />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 }
