@@ -10,6 +10,7 @@ import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
 import { workTypeLabels, formatSalary } from "@/lib/format";
 import { useApplications } from "@/hooks/use-applications";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -42,14 +43,25 @@ type SortableColumn =
   | "applied_at"
   | "salary_min";
 
-const sortableColumns: { key: SortableColumn; label: string }[] = [
+type Column = {
+  key: SortableColumn;
+  label: string;
+  hideMobile?: boolean;
+};
+
+const sortableColumns: Column[] = [
   { key: "company_name", label: "Company" },
-  { key: "role_title", label: "Role" },
-  { key: "status", label: "Status" },
-  { key: "location", label: "Location" },
-  { key: "applied_at", label: "Applied Date" },
-  { key: "salary_min", label: "Salary Range" },
+  { key: "role_title", label: "Role", hideMobile: true },
+  { key: "status", label: "Status", hideMobile: true },
+  { key: "location", label: "Location", hideMobile: true },
+  { key: "applied_at", label: "Applied Date", hideMobile: true },
+  { key: "salary_min", label: "Salary Range", hideMobile: true },
 ];
+
+const colClasses = (key: SortableColumn) =>
+  sortableColumns.find((c) => c.key === key)?.hideMobile
+    ? "hidden md:table-cell"
+    : "";
 
 const statusFilterOptions = [
   { value: "", label: "All Statuses" },
@@ -129,7 +141,10 @@ export function ApplicationsTable({
               {sortableColumns.map((col) => (
                 <TableHead
                   key={col.key}
-                  className="cursor-pointer select-none font-heading text-[10px] uppercase tracking-wider text-muted-foreground h-8 px-2"
+                  className={cn(
+                    "cursor-pointer select-none font-heading text-[10px] uppercase tracking-wider text-muted-foreground h-8 px-2",
+                    col.hideMobile && "hidden md:table-cell"
+                  )}
                   onClick={() => handleSort(col.key)}
                 >
                   <span className="inline-flex items-center gap-1">
@@ -167,27 +182,27 @@ export function ApplicationsTable({
                   key={app.id}
                   className="border-border hover:bg-muted/30"
                 >
-                  <TableCell className="font-medium">
+                  <TableCell className={cn("font-medium", colClasses("company_name"))}>
                     {app.company_name}
                   </TableCell>
-                  <TableCell>{app.role_title}</TableCell>
-                  <TableCell>
+                  <TableCell className={colClasses("role_title")}>{app.role_title}</TableCell>
+                  <TableCell className={colClasses("status")}>
                     {app.status && (
                       <Badge variant={statusConfig[app.status].variant}>
                         {statusConfig[app.status].label}
                       </Badge>
                     )}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={colClasses("location")}>
                     {app.location}
                     {app.work_type && ` (${workTypeLabels[app.work_type]})`}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={colClasses("applied_at")}>
                     {app.applied_at
                       ? format(new Date(app.applied_at), "MMM d, yyyy")
                       : "-"}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={colClasses("salary_min")}>
                     {formatSalary(
                       app.salary_min,
                       app.salary_max,
