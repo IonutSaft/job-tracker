@@ -4,10 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export function AverageTimeCard({ value }: { value: number | null }) {
   return (
-    <Card size="sm" className="rounded-none border border-border bg-card">
+    <Card className="rounded-none border border-border bg-card">
       <CardHeader className="flex-row items-center justify-between gap-2">
         <CardTitle className="font-heading text-xs uppercase tracking-wider">
-          Avg Time to Interview
+          {"// Avg Time to Interview"}
         </CardTitle>
         <Clock className="size-4 text-primary" />
       </CardHeader>
