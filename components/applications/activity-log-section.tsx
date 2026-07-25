@@ -32,12 +32,13 @@ export function ActivityLogSection({
           <div className="absolute left-[11px] top-2 bottom-2 w-px bg-border" />
           <div className="space-y-0">
             {activityLogs.map((log) => {
-              const config = log.type
-                ? activityTypeConfig[log.type]
-                : null;
+              const config = log.type ? activityTypeConfig[log.type] : null;
 
               return (
-                <div key={log.id} className="relative flex gap-4 pb-5 last:pb-0">
+                <div
+                  key={log.id}
+                  className="relative flex gap-4 pb-5 last:pb-0"
+                >
                   <div className="relative z-10 mt-[5px] flex shrink-0">
                     <div
                       className={`size-[22px] rounded-full ring-2 ring-background ${
@@ -60,10 +61,9 @@ export function ActivityLogSection({
                         {config?.label ?? log.type ?? "Unknown"}
                       </Badge>
                       <span className="font-mono text-[10px] text-muted-foreground shrink-0">
-                        {formatDistanceToNow(
-                          new Date(log.created_at),
-                          { addSuffix: true },
-                        )}
+                        {formatDistanceToNow(new Date(log.created_at), {
+                          addSuffix: true,
+                        })}
                       </span>
                     </div>
                     {log.description && (
@@ -71,7 +71,6 @@ export function ActivityLogSection({
                         {log.description}
                       </p>
                     )}
-
                   </div>
                 </div>
               );

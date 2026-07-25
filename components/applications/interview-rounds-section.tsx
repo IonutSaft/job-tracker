@@ -21,10 +21,7 @@ import {
 } from "@/hooks/use-interview-rounds";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -47,8 +44,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-type InterviewRound =
-  Database["public"]["Tables"]["interview_rounds"]["Row"];
+type InterviewRound = Database["public"]["Tables"]["interview_rounds"]["Row"];
 type RoundOutcome = Database["public"]["Enums"]["round_outcome"];
 
 function RoundCard({ round }: { round: InterviewRound }) {
@@ -177,7 +173,9 @@ function AddRoundDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="rounded-none sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="font-heading text-xs uppercase tracking-wider">{"// ADD ROUND"}</DialogTitle>
+          <DialogTitle className="font-heading text-xs uppercase tracking-wider">
+            {"// ADD ROUND"}
+          </DialogTitle>
           <DialogDescription>
             Record a new interview round for this application.
           </DialogDescription>
@@ -191,13 +189,10 @@ function AddRoundDialog({
                   name="round_type"
                   control={control}
                   render={({ field }) => (
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                    >
-        <SelectTrigger className="w-full rounded-none">
-          <SelectValue />
-        </SelectTrigger>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full rounded-none">
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
                         {(
                           Object.entries(roundTypeConfig) as [
@@ -272,16 +267,24 @@ function AddRoundDialog({
             </div>
           </FieldGroup>
           <DialogFooter>
-          <DialogClose
-            render={
-              <Button variant="outline" type="button" className="rounded-none">
-                Cancel
-              </Button>
-            }
-          />
-          <Button type="submit" className="rounded-none" disabled={createMutation.isPending}>
-            {createMutation.isPending ? "Adding..." : "Add Round"}
-          </Button>
+            <DialogClose
+              render={
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="rounded-none"
+                >
+                  Cancel
+                </Button>
+              }
+            />
+            <Button
+              type="submit"
+              className="rounded-none"
+              disabled={createMutation.isPending}
+            >
+              {createMutation.isPending ? "Adding..." : "Add Round"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

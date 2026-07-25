@@ -121,7 +121,7 @@ export function ApplicationsTable({
           value={statusFilter}
           onValueChange={(value) => setSearchParams({ status: value || null })}
         >
-          <SelectTrigger className="w-44 rounded-none border-border bg-card font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+          <SelectTrigger className="w-44 max-sm:w-32 rounded-none border-border bg-card font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
             <SelectValue placeholder="All Statuses" />
           </SelectTrigger>
           <SelectContent className="rounded-none border-border bg-popover">

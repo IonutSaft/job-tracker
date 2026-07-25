@@ -51,9 +51,10 @@ export function CreateApplicationDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button className="rounded-none">
-            <PlusIcon />
-            New Application
+          <Button className="rounded-none max-sm:text-[10px] max-sm:h-7 max-sm:px-2">
+            <PlusIcon className="size-4 max-sm:size-3" />
+            <span className="sm:hidden">New</span>
+            <span className="hidden sm:inline">New Application</span>
           </Button>
         }
       />

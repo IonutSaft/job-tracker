@@ -47,7 +47,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
       <div className="shrink-0">
         <Link href="/dashboard/applications">
-          <Button variant="ghost" className="-ml-2 gap-1 rounded-none text-muted-foreground">
+          <Button
+            variant="ghost"
+            className="-ml-2 gap-1 rounded-none text-muted-foreground"
+          >
             <ArrowLeft className="size-4" />
             Back to Applications
           </Button>
@@ -55,7 +58,10 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       </div>
 
       <Tabs defaultValue="info" className="flex-1 min-h-0 flex-col">
-        <TabsList variant="line" className="shrink-0">
+        <TabsList
+          variant="line"
+          className="shrink-0 md:inline-flex md:w-fit flex w-full flex-wrap mb-2"
+        >
           <TabsTrigger value="info">Info</TabsTrigger>
           <TabsTrigger value="rounds">Interview Rounds</TabsTrigger>
           <TabsTrigger value="contacts">Contacts</TabsTrigger>

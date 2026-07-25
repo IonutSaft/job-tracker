@@ -1,8 +1,4 @@
-import {
-  getSupabaseClient,
-  getCurrentUser,
-  getApplications,
-} from "@/lib/data";
+import { getSupabaseClient, getCurrentUser, getApplications } from "@/lib/data";
 import { KanbanBoard } from "@/components/kanban/kanban-board";
 
 export default async function Page() {

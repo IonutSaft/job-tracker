@@ -162,6 +162,26 @@ export function ApplicationForm({
                 </p>
               )}
             </Field>
+            <Field>
+              <Label htmlFor="location">Location</Label>
+              <Controller
+                name="location"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    id="location"
+                    placeholder="San Francisco, CA"
+                    value={field.value ?? ""}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              {errors.location && (
+                <p className="text-sm text-destructive">
+                  {errors.location.message}
+                </p>
+              )}
+            </Field>
             {watchStatus === "applied" && (
               <Field>
                 <Label htmlFor="applied_at">Applied Date</Label>
@@ -186,26 +206,6 @@ export function ApplicationForm({
             )}
           </div>
           <div className="flex flex-col gap-5">
-            <Field>
-              <Label htmlFor="location">Location</Label>
-              <Controller
-                name="location"
-                control={control}
-                render={({ field }) => (
-                  <Input
-                    id="location"
-                    placeholder="San Francisco, CA"
-                    value={field.value ?? ""}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
-              {errors.location && (
-                <p className="text-sm text-destructive">
-                  {errors.location.message}
-                </p>
-              )}
-            </Field>
             <Field>
               <Label htmlFor="job_url">Job URL</Label>
               <Controller
@@ -262,8 +262,8 @@ export function ApplicationForm({
             </Field>
             <div className="flex flex-col gap-2">
               <Label>Salary</Label>
-              <div className="flex gap-2">
-                <div className="w-[110px] shrink-0">
+              <div className="flex flex-col sm:flex-row gap-2">
+                <div className="w-full sm:w-[110px] shrink-0">
                   <Controller
                     name="salary_currency"
                     control={control}
@@ -296,59 +296,61 @@ export function ApplicationForm({
                     </p>
                   )}
                 </div>
-                <div className="flex-1">
-                  <Controller
-                    name="salary_min"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        id="salary_min"
-                        type="number"
-                        min="0"
-                        placeholder="Min"
-                        value={field.value ?? ""}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value),
-                          )
-                        }
-                      />
+                <div className="flex gap-2 w-full">
+                  <div className="flex-1">
+                    <Controller
+                      name="salary_min"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          id="salary_min"
+                          type="number"
+                          min="0"
+                          placeholder="Min"
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : Number(e.target.value),
+                            )
+                          }
+                        />
+                      )}
+                    />
+                    {errors.salary_min && (
+                      <p className="text-sm text-destructive">
+                        {errors.salary_min.message}
+                      </p>
                     )}
-                  />
-                  {errors.salary_min && (
-                    <p className="text-sm text-destructive">
-                      {errors.salary_min.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex-1">
-                  <Controller
-                    name="salary_max"
-                    control={control}
-                    render={({ field }) => (
-                      <Input
-                        id="salary_max"
-                        type="number"
-                        min="0"
-                        placeholder="Max"
-                        value={field.value ?? ""}
-                        onChange={(e) =>
-                          field.onChange(
-                            e.target.value === ""
-                              ? undefined
-                              : Number(e.target.value),
-                          )
-                        }
-                      />
+                  </div>
+                  <div className="flex-1">
+                    <Controller
+                      name="salary_max"
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          id="salary_max"
+                          type="number"
+                          min="0"
+                          placeholder="Max"
+                          value={field.value ?? ""}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : Number(e.target.value),
+                            )
+                          }
+                        />
+                      )}
+                    />
+                    {errors.salary_max && (
+                      <p className="text-sm text-destructive">
+                        {errors.salary_max.message}
+                      </p>
                     )}
-                  />
-                  {errors.salary_max && (
-                    <p className="text-sm text-destructive">
-                      {errors.salary_max.message}
-                    </p>
-                  )}
+                  </div>
                 </div>
               </div>
             </div>
