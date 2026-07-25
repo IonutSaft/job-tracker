@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import { SidebarNavLink } from "./sidebar-nav-link";
 import { NavUser } from "./nav-user";
 
 export async function AppSidebar() {
@@ -53,28 +53,28 @@ export async function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="space-y-1">
               <SidebarMenuItem className="border-b border-sidebar-border pb-1 last:border-b-0">
-                <Link
+                <SidebarNavLink
                   href="/dashboard"
                   className="font-heading text-base uppercase tracking-wider text-sidebar-foreground transition-colors hover:text-primary"
                 >
                   &gt; Home
-                </Link>
+                </SidebarNavLink>
               </SidebarMenuItem>
               <SidebarMenuItem className="border-b border-sidebar-border py-1 last:border-b-0">
-                <Link
+                <SidebarNavLink
                   href="/dashboard/applications"
                   className="font-heading text-base uppercase tracking-wider text-sidebar-foreground transition-colors hover:text-primary"
                 >
                   &gt; Applications
-                </Link>
+                </SidebarNavLink>
               </SidebarMenuItem>
               <SidebarMenuItem className="border-b border-sidebar-border pb-1 last:border-b-0">
-                <Link
+                <SidebarNavLink
                   href="/dashboard/kanban"
                   className="font-heading text-base uppercase tracking-wider text-sidebar-foreground transition-colors hover:text-primary"
                 >
                   &gt; Kanban Board
-                </Link>
+                </SidebarNavLink>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

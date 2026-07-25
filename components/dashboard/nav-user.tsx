@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { logout } from "@/lib/actions/auth";
 
@@ -15,6 +17,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 export function NavUser({
@@ -24,6 +27,8 @@ export function NavUser({
   user: User | null;
   profile: { full_name: string | null; avatar_url: string | null } | null;
 }) {
+  const { setOpenMobile, isMobile } = useSidebar();
+
   if (!user) return null;
 
   const displayName = profile?.full_name ?? "Unknown User";
@@ -83,6 +88,7 @@ export function NavUser({
                   <Link
                     href="/dashboard/resumes"
                     className="font-heading text-xs uppercase tracking-wider text-popover-foreground transition-colors hover:text-primary"
+                    onClick={() => isMobile && setOpenMobile(false)}
                   />
                 }
               >
@@ -93,6 +99,7 @@ export function NavUser({
                   <Link
                     href="/dashboard/settings"
                     className="font-heading text-xs uppercase tracking-wider text-popover-foreground transition-colors hover:text-primary"
+                    onClick={() => isMobile && setOpenMobile(false)}
                   />
                 }
               >
