@@ -59,7 +59,7 @@ function ResumeCard({
   };
 
   return (
-    <Card size="sm">
+    <Card size="sm" className="rounded-none border-border">
       <CardHeader>
         <div className="flex items-center gap-2">
           <FileText className="size-4 shrink-0 text-muted-foreground" />
@@ -68,7 +68,7 @@ function ResumeCard({
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
+          <span className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
             {format(new Date(resume.created_at), "MMM d, yyyy")}
             {resume.file_size && (
               <> &middot; {(resume.file_size / 1024).toFixed(0)} KB</>
@@ -91,7 +91,7 @@ function ResumeCard({
                   </Button>
                 }
               />
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="rounded-none border-border bg-card sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>Delete Resume</DialogTitle>
                   <DialogDescription>
@@ -156,9 +156,8 @@ export function ResumeLibrary({
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Resume Library</h2>
+    <Card className="mx-auto w-full max-w-3xl rounded-none border border-border bg-card">
+      <div className="border-b border-border flex items-center justify-between px-3 pt-1 pb-3">
         <input
           ref={fileInputRef}
           type="file"
@@ -176,27 +175,29 @@ export function ResumeLibrary({
         </Button>
       </div>
 
-      {isLoading ? (
-        <div className="space-y-2">
-          <Skeleton className="h-20 w-full" />
-          <Skeleton className="h-20 w-full" />
-        </div>
-      ) : resumes.length === 0 ? (
-        <Card size="sm">
-          <CardContent className="py-8 text-center text-sm text-muted-foreground">
-            No resumes uploaded yet.
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-2">
-          {resumes.map((resume) => (
-            <ResumeCard
-              key={resume.id}
-              resume={resume}
-            />
-          ))}
-        </div>
-      )}
-    </div>
+      <div className="p-4">
+        {isLoading ? (
+          <div className="space-y-2">
+            <Skeleton className="h-20 w-full rounded-none" />
+            <Skeleton className="h-20 w-full rounded-none" />
+          </div>
+        ) : resumes.length === 0 ? (
+          <Card size="sm" className="rounded-none border-border">
+            <CardContent className="py-8 text-center text-sm text-muted-foreground">
+              No resumes uploaded yet.
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="space-y-2">
+            {resumes.map((resume) => (
+              <ResumeCard
+                key={resume.id}
+                resume={resume}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </Card>
   );
 }

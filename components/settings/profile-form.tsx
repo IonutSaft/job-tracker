@@ -127,7 +127,12 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="full_name">Full Name</Label>
+        <Label
+          htmlFor="full_name"
+          className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground"
+        >
+          Full Name
+        </Label>
         <Controller
           name="full_name"
           control={control}
@@ -135,6 +140,7 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
             <Input
               id="full_name"
               placeholder="Your name"
+              className="rounded-none"
               value={field.value ?? ""}
               onChange={field.onChange}
             />

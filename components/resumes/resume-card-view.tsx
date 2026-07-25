@@ -29,7 +29,7 @@ export function ResumeCardView({ resume }: { resume: Resume }) {
   };
 
   return (
-    <Card size="sm">
+    <Card size="sm" className="rounded-none border-border">
       <CardHeader>
         <div className="flex items-center gap-2">
           <FileText className="size-4 shrink-0 text-muted-foreground" />
@@ -38,7 +38,7 @@ export function ResumeCardView({ resume }: { resume: Resume }) {
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">
+          <span className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
             {format(new Date(resume.created_at), "MMM d, yyyy")}
             {resume.file_size && (
               <> &middot; {(resume.file_size / 1024).toFixed(0)} KB</>

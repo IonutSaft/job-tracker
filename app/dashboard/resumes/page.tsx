@@ -9,7 +9,10 @@ export default async function ResumesPage() {
   const { data: resumes } = await getResumes(supabase, user?.id ?? "");
 
   return (
-    <div className="p-6">
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <h1 className="shrink-0 font-heading text-xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_8px_rgba(0,255,65,0.4)]">
+        {"// RESUMES"}
+      </h1>
       <Suspense fallback={null}>
         <ResumeLibrary resumes={resumes ?? []} />
       </Suspense>

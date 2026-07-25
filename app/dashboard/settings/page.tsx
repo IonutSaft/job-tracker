@@ -15,13 +15,19 @@ export default async function SettingsPage() {
   const { data: profile } = await getProfile(supabase, user?.id ?? "");
 
   return (
-    <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Settings</h1>
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <h1 className="shrink-0 font-heading text-xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_8px_rgba(0,255,65,0.4)]">
+        {"// SETTINGS"}
+      </h1>
 
-      <Card>
+      <Card className="mx-auto w-full max-w-3xl rounded-none border border-border bg-card">
         <CardHeader>
-          <CardTitle>Profile</CardTitle>
-          <CardDescription>Update your name and avatar</CardDescription>
+          <CardTitle className="font-heading text-xs uppercase tracking-wider text-muted-foreground">
+            Profile
+          </CardTitle>
+          <CardDescription className="font-mono text-[10px] text-muted-foreground">
+            Update your name and avatar
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <ProfileForm profile={profile} />
