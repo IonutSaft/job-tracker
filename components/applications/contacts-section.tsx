@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus, Pencil, Trash2, ExternalLink, Mail } from "lucide-react";
+import { Plus, Pencil, Trash2, ExternalLink, Mail, Users } from "lucide-react";
 import { toast } from "sonner";
 
 import type { Database } from "@/lib/database.types";
@@ -16,6 +16,13 @@ import {
 } from "@/hooks/use-contacts";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+} from "@/components/ui/empty";
 import {
   Dialog,
   DialogContent,
@@ -338,9 +345,17 @@ export function ContactsSection({
       </div>
 
       {contacts.length === 0 ? (
-        <p className="py-8 text-center font-mono text-sm text-muted-foreground">
-          No contacts yet. Add one to get started.
-        </p>
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Users />
+            </EmptyMedia>
+            <EmptyTitle>No contacts yet</EmptyTitle>
+            <EmptyDescription>
+              Add a contact to keep track of your networking.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       ) : (
         <div className="space-y-2">
           {contacts.map((contact) => (

@@ -1,5 +1,17 @@
+import Link from "next/link";
+import { Kanban } from "lucide-react";
+
 import { getSupabaseClient, getCurrentUser, getApplications } from "@/lib/data";
 import { KanbanBoard } from "@/components/kanban/kanban-board";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
 
 export default async function Page() {
   const supabase = await getSupabaseClient();
@@ -12,6 +24,29 @@ export default async function Page() {
   const { data: applications } = await query.order("applied_at", {
     ascending: false,
   });
+
+  if ((applications ?? []).length === 0) {
+    return (
+      <div className="flex flex-1 min-h-0 flex-col items-center justify-center p-6">
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Kanban />
+            </EmptyMedia>
+            <EmptyTitle>No applications yet</EmptyTitle>
+            <EmptyDescription>
+              Create your first application to start tracking your job search on the kanban board.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button render={<Link href="/dashboard/applications" />} nativeButton={false}>
+              Go to Applications
+            </Button>
+          </EmptyContent>
+        </Empty>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">

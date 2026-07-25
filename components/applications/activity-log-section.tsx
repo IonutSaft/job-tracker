@@ -1,11 +1,19 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
+import { History } from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
 import { activityTypeConfig } from "@/lib/config";
 import { useActivityLogs } from "@/hooks/use-activity-logs";
 import { Badge } from "@/components/ui/badge";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+} from "@/components/ui/empty";
 
 type ActivityLog = Database["public"]["Tables"]["activity_logs"]["Row"];
 
@@ -24,9 +32,17 @@ export function ActivityLogSection({
   return (
     <div>
       {activityLogs.length === 0 ? (
-        <p className="py-8 text-center font-mono text-sm text-muted-foreground">
-          No activity recorded yet.
-        </p>
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <History />
+            </EmptyMedia>
+            <EmptyTitle>No activity recorded yet</EmptyTitle>
+            <EmptyDescription>
+              Activity will appear here as you update your application.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       ) : (
         <div className="relative">
           <div className="absolute left-[11px] top-2 bottom-2 w-px bg-border" />

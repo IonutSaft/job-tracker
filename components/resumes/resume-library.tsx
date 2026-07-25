@@ -17,6 +17,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+} from "@/components/ui/empty";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -182,11 +189,17 @@ export function ResumeLibrary({
             <Skeleton className="h-20 w-full rounded-none" />
           </div>
         ) : resumes.length === 0 ? (
-          <Card size="sm" className="rounded-none border-border">
-            <CardContent className="py-8 text-center text-sm text-muted-foreground">
-              No resumes uploaded yet.
-            </CardContent>
-          </Card>
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <FileText />
+              </EmptyMedia>
+              <EmptyTitle>No resumes uploaded yet</EmptyTitle>
+              <EmptyDescription>
+                Upload your first resume to easily attach it to applications.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
         ) : (
           <div className="space-y-2">
             {resumes.map((resume) => (

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, Calendar } from "lucide-react";
 import { toast } from "sonner";
 
 import type { Database } from "@/lib/database.types";
@@ -22,6 +22,13 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+} from "@/components/ui/empty";
 import {
   Dialog,
   DialogContent,
@@ -326,9 +333,17 @@ export function InterviewRoundsSection({
       </div>
 
       {rounds.length === 0 ? (
-        <p className="py-8 text-center font-mono text-sm text-muted-foreground">
-          No interview rounds yet. Add one to get started.
-        </p>
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Calendar />
+            </EmptyMedia>
+            <EmptyTitle>No interview rounds yet</EmptyTitle>
+            <EmptyDescription>
+              Add an interview round to track your progress.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
       ) : (
         <div className="space-y-2">
           {rounds.map((round) => (

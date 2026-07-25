@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
-import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink } from "lucide-react";
+import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Inbox } from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
@@ -14,6 +14,14 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
 import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
 import { DeleteApplicationDialog } from "@/components/applications/delete-application-dialog";
@@ -169,11 +177,24 @@ export function ApplicationsTable({
           <TableBody>
             {applications.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={7}
-                  className="h-24 text-center font-mono text-sm text-muted-foreground"
-                >
-                  No applications match your filter.
+                <TableCell colSpan={7} className="p-0">
+                  <Empty className="border-0">
+                    <EmptyHeader>
+                      <EmptyMedia variant="icon">
+                        <Inbox />
+                      </EmptyMedia>
+                      <EmptyTitle>
+                        {statusFilter
+                          ? "No applications match your filter."
+                          : "No applications yet"}
+                      </EmptyTitle>
+                      <EmptyDescription>
+                        {statusFilter
+                          ? "Try adjusting your filter to see more results."
+                          : "Create your first application to start tracking."}
+                      </EmptyDescription>
+                    </EmptyHeader>
+                  </Empty>
                 </TableCell>
               </TableRow>
             ) : (

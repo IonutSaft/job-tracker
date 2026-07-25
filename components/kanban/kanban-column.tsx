@@ -1,7 +1,15 @@
 "use client";
 
 import { useDroppable } from "@dnd-kit/react";
+import { FileSearch } from "lucide-react";
+
 import type { Database } from "@/lib/database.types";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty";
 import { KanbanCard } from "./kanban-card";
 
 type ApplicationRow = Database["public"]["Tables"]["applications"]["Row"];
@@ -35,7 +43,14 @@ export function KanbanColumn({
         }`}
       >
         {applications.length === 0 ? (
-          <p className="text-xs text-muted-foreground">No applications</p>
+          <Empty className="p-0 gap-1">
+            <EmptyHeader className="gap-1">
+              <EmptyMedia variant="icon">
+                <FileSearch />
+              </EmptyMedia>
+              <EmptyTitle className="text-xs">No {title.toLowerCase()} applications</EmptyTitle>
+            </EmptyHeader>
+          </Empty>
         ) : (
           applications.map((app) => (
             <KanbanCard key={app.id} application={app} />

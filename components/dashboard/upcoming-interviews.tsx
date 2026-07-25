@@ -1,7 +1,17 @@
+import Link from "next/link";
 import { CalendarDays } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
 
 const ROUND_TYPE_LABELS: Record<string, string> = {
   phone_screen: "Phone Screen",
@@ -56,12 +66,22 @@ export function UpcomingInterviews({ data }: { data: UpcomingInterview[] }) {
       </CardHeader>
       <CardContent className="flex-1 min-h-0 overflow-auto">
         {data.length === 0 ? (
-          <div className="flex flex-col items-center gap-2 py-8 text-center">
-            <CalendarDays className="size-8 text-muted-foreground" />
-            <p className="font-mono text-sm text-muted-foreground">
-              No upcoming interviews.
-            </p>
-          </div>
+          <Empty>
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <CalendarDays />
+              </EmptyMedia>
+              <EmptyTitle>No upcoming interviews</EmptyTitle>
+              <EmptyDescription>
+                Interviews you schedule will appear here.
+              </EmptyDescription>
+            </EmptyHeader>
+            <EmptyContent>
+              <Button variant="outline" render={<Link href="/dashboard/applications" />} nativeButton={false}>
+                View Applications
+              </Button>
+            </EmptyContent>
+          </Empty>
         ) : (
           <ul className="space-y-2">
             {data.map((interview) => (

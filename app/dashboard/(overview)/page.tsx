@@ -1,10 +1,20 @@
-import { Activity, Award, Briefcase, Percent } from "lucide-react";
+import Link from "next/link";
+import { Activity, Award, Briefcase, LayoutDashboard, Percent } from "lucide-react";
 
 import { ApplicationsTimelineChart } from "@/components/dashboard/applications-timeline-chart";
 import { AverageTimeCard } from "@/components/dashboard/average-time-card";
 import { FunnelChart } from "@/components/dashboard/funnel-chart";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { UpcomingInterviews } from "@/components/dashboard/upcoming-interviews";
+import { Button } from "@/components/ui/button";
+import {
+  Empty,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  EmptyDescription,
+  EmptyContent,
+} from "@/components/ui/empty";
 import {
   getApplicationFunnel,
   getApplicationTimeline,
@@ -47,6 +57,29 @@ export default async function Page() {
         return "text-green-500";
     }
   };
+
+  if (stats.totalApplications === 0) {
+    return (
+      <div className="flex flex-1 min-h-0 flex-col items-center justify-center p-6">
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <LayoutDashboard />
+            </EmptyMedia>
+            <EmptyTitle>No data yet</EmptyTitle>
+            <EmptyDescription>
+              Start tracking your applications to see insights, charts, and upcoming interviews here.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button render={<Link href="/dashboard/applications" />} nativeButton={false}>
+              Go to Applications
+            </Button>
+          </EmptyContent>
+        </Empty>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
