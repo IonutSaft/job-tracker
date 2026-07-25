@@ -53,7 +53,7 @@ export function KanbanCardContent({
     <Card
       size="sm"
       className={cn(
-        "cursor-grab active:cursor-grabbing transition-shadow",
+        "cursor-grab active:cursor-grabbing rounded-none border-border transition-shadow hover:bg-muted/30",
         isDropTarget && "ring-2 ring-primary",
       )}
     >

@@ -19,6 +19,7 @@ import {
 } from "@/hooks/use-applications";
 import { KanbanColumn } from "./kanban-column";
 import { KanbanCardContent } from "./kanban-card";
+import { Card } from "@/components/ui/card";
 
 const ACTIVE_STATUSES: ApplicationStatus[] = [
   "bookmarked",
@@ -105,36 +106,38 @@ export function KanbanBoard({
 
   return (
     <DragDropProvider onDragEnd={handleDragEnd}>
-      <div>
-        <div className="flex gap-4 overflow-x-auto pb-4">
-          {ACTIVE_STATUSES.map((status) => (
-            <KanbanColumn
-              key={status}
-              title={statusConfig[status].label}
-              applications={grouped[status] ?? []}
-              status={status}
-            />
-          ))}
+      <Card className="rounded-none border border-border bg-card">
+        <div className="flex flex-col gap-4 p-4">
+          <div className="flex flex-col gap-4 md:flex-row md:overflow-x-auto">
+            {ACTIVE_STATUSES.map((status) => (
+              <KanbanColumn
+                key={status}
+                title={statusConfig[status].label}
+                applications={grouped[status] ?? []}
+                status={status}
+              />
+            ))}
+          </div>
+          {archiveCount > 0 && (
+            <details className="group">
+              <summary className="flex cursor-pointer items-center gap-2 font-heading text-[10px] uppercase tracking-wider text-muted-foreground hover:text-foreground">
+                <ChevronRight className="size-4 transition-transform group-open:rotate-90" />
+                Archive ({archiveCount})
+              </summary>
+              <div className="mt-4 flex flex-col gap-4 md:flex-row md:overflow-x-auto">
+                {ARCHIVE_STATUSES.map((status) => (
+                  <KanbanColumn
+                    key={status}
+                    title={statusConfig[status].label}
+                    applications={grouped[status] ?? []}
+                    status={status}
+                  />
+                ))}
+              </div>
+            </details>
+          )}
         </div>
-        {archiveCount > 0 && (
-          <details className="group mt-6">
-            <summary className="flex cursor-pointer items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
-              <ChevronRight className="size-4 transition-transform group-open:rotate-90" />
-              Archive ({archiveCount})
-            </summary>
-            <div className="mt-4 flex gap-4 overflow-x-auto">
-              {ARCHIVE_STATUSES.map((status) => (
-                <KanbanColumn
-                  key={status}
-                  title={statusConfig[status].label}
-                  applications={grouped[status] ?? []}
-                  status={status}
-                />
-              ))}
-            </div>
-          </details>
-        )}
-      </div>
+      </Card>
       <DragOverlay dropAnimation={undefined}>
         {(source) => {
           if (!source) return null;

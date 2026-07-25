@@ -19,16 +19,18 @@ export function KanbanColumn({
   const { ref, isDropTarget } = useDroppable({ id: status });
 
   return (
-    <div className="flex min-w-72 flex-col gap-3">
+    <div className="flex min-w-72 flex-col gap-3 rounded-none border border-border bg-card p-3">
       <div className="flex items-center gap-2">
-        <h3 className="text-sm font-semibold">{title}</h3>
-        <span className="inline-flex size-5 items-center justify-center rounded-full bg-muted text-[11px] font-medium text-muted-foreground">
+        <h3 className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground">
+          {title}
+        </h3>
+        <span className="inline-flex items-center justify-center rounded-none bg-muted px-2 font-heading text-[10px] text-muted-foreground">
           {applications.length}
         </span>
       </div>
       <div
         ref={ref}
-        className={`flex flex-col gap-2 rounded-lg p-2 transition-colors ${
+        className={`flex flex-col gap-2 rounded-none p-2 transition-colors ${
           isDropTarget ? "bg-muted/50 ring-2 ring-primary/20" : ""
         }`}
       >

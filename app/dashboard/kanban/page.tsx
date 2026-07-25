@@ -18,8 +18,10 @@ export default async function Page() {
   });
 
   return (
-    <div className="p-6">
-      <h1 className="mb-6 text-2xl font-bold">Kanban</h1>
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <h1 className="shrink-0 font-heading text-xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_8px_rgba(0,255,65,0.4)]">
+        {"// KANBAN"}
+      </h1>
       <KanbanBoard applications={applications ?? []} />
     </div>
   );
