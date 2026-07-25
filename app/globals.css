@@ -50,23 +50,23 @@
 
 :root,
 .dark {
-  --background: #0c100c;
-  --foreground: #c9d1d9;
-  --card: #0d120d;
-  --card-foreground: #c9d1d9;
-  --popover: #0d120d;
-  --popover-foreground: #c9d1d9;
+  --background: #1a1a1a;
+  --foreground: #d1d5db;
+  --card: #222222;
+  --card-foreground: #d1d5db;
+  --popover: #222222;
+  --popover-foreground: #d1d5db;
   --primary: #00ff41;
-  --primary-foreground: #0c100c;
-  --secondary: #142114;
+  --primary-foreground: #1a1a1a;
+  --secondary: #2e2e2e;
   --secondary-foreground: #00ff41;
-  --muted: #0f150f;
-  --muted-foreground: #5a8a5a;
+  --muted: #262626;
+  --muted-foreground: #6b7280;
   --accent: rgba(0, 255, 65, 0.08);
   --accent-foreground: #00ff41;
   --destructive: #ff3333;
-  --border: rgba(0, 255, 65, 0.18);
-  --input: rgba(0, 255, 65, 0.12);
+  --border: rgba(0, 255, 65, 0.2);
+  --input: rgba(0, 255, 65, 0.15);
   --ring: rgba(0, 255, 65, 0.35);
   --chart-1: #00ff41;
   --chart-2: #33cc44;
@@ -74,10 +74,10 @@
   --chart-4: #1a6622;
   --chart-5: #0d3311;
   --radius: 0.625rem;
-  --sidebar: #0c100c;
-  --sidebar-foreground: #c9d1d9;
+  --sidebar: #1a1a1a;
+  --sidebar-foreground: #d1d5db;
   --sidebar-primary: #00ff41;
-  --sidebar-primary-foreground: #0c100c;
+  --sidebar-primary-foreground: #1a1a1a;
   --sidebar-accent: rgba(0, 255, 65, 0.06);
   --sidebar-accent-foreground: #00ff41;
   --sidebar-border: rgba(0, 255, 65, 0.13);
@@ -118,20 +118,10 @@ body::before {
   z-index: 9998;
   pointer-events: none;
   background: radial-gradient(
-    ellipse at center,
-    transparent 60%,
-    rgba(0, 0, 0, 0.65) 100%
+    ellipse 120% 40% at 50% -10%,
+    rgba(0, 255, 65, 0.3) 0%,
+    transparent 100%
   );
-}
-
-@media (max-width: 767px) {
-  body::before {
-    background: radial-gradient(
-      ellipse at center,
-      transparent 40%,
-      rgba(0, 0, 0, 0.3) 100%
-    );
-  }
 }
 
 ::-webkit-scrollbar {

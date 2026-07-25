@@ -41,7 +41,7 @@ export function NavUser({
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
-              <SidebarMenuButton className="py-6">
+              <SidebarMenuButton className="py-6 rounded-none">
                 <div className="flex items-center gap-2">
                   <Avatar className="size-8">
                     <AvatarImage src={avatarUrl} alt="User Avatar" />
