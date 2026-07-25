@@ -44,33 +44,33 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const activityLogs = activityResult.data ?? [];
 
   return (
-    <div className="p-6">
-      <div className="mb-6">
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <div className="shrink-0">
         <Link href="/dashboard/applications">
-          <Button variant="ghost" className="-ml-2 gap-1 text-muted-foreground">
+          <Button variant="ghost" className="-ml-2 gap-1 rounded-none text-muted-foreground">
             <ArrowLeft className="size-4" />
             Back to Applications
           </Button>
         </Link>
       </div>
 
-      <Tabs defaultValue="info">
-        <TabsList>
+      <Tabs defaultValue="info" className="flex-1 min-h-0 flex-col">
+        <TabsList variant="line" className="shrink-0">
           <TabsTrigger value="info">Info</TabsTrigger>
           <TabsTrigger value="rounds">Interview Rounds</TabsTrigger>
           <TabsTrigger value="contacts">Contacts</TabsTrigger>
           <TabsTrigger value="activity">Activity</TabsTrigger>
         </TabsList>
-        <TabsContent value="info" className="pt-4">
+        <TabsContent value="info" className="pt-4 min-h-0">
           <ApplicationCard application={application} resume={resume} />
         </TabsContent>
-        <TabsContent value="rounds" className="pt-4">
+        <TabsContent value="rounds" className="pt-4 min-h-0">
           <InterviewRoundsSection applicationId={id} initialRounds={rounds} />
         </TabsContent>
-        <TabsContent value="contacts" className="pt-4">
+        <TabsContent value="contacts" className="pt-4 min-h-0">
           <ContactsSection applicationId={id} initialContacts={contacts} />
         </TabsContent>
-        <TabsContent value="activity" className="pt-4">
+        <TabsContent value="activity" className="pt-4 min-h-0">
           <ActivityLogSection
             applicationId={id}
             initialActivityLogs={activityLogs}

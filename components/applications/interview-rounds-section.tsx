@@ -65,9 +65,9 @@ function RoundCard({ round }: { round: InterviewRound }) {
   };
 
   return (
-    <Card size="sm">
+    <Card size="sm" className="rounded-none border border-border bg-card">
       <CardContent>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div className="min-w-0 space-y-1">
             <div className="flex items-center gap-2">
               <Badge variant="secondary">
@@ -89,7 +89,7 @@ function RoundCard({ round }: { round: InterviewRound }) {
               value={round.outcome ?? "pending"}
               onValueChange={handleOutcomeChange}
             >
-              <SelectTrigger className="h-7 w-32">
+              <SelectTrigger className="h-7 w-32 rounded-none">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -108,6 +108,7 @@ function RoundCard({ round }: { round: InterviewRound }) {
             <Button
               variant="ghost"
               size="icon-xs"
+              className="cursor-pointer"
               onClick={() => deleteMutation.mutate(round.id)}
             >
               <Trash2 className="size-3" />
@@ -174,9 +175,9 @@ function AddRoundDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="rounded-none sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Add Interview Round</DialogTitle>
+          <DialogTitle className="font-heading text-xs uppercase tracking-wider">{"// ADD ROUND"}</DialogTitle>
           <DialogDescription>
             Record a new interview round for this application.
           </DialogDescription>
@@ -194,9 +195,9 @@ function AddRoundDialog({
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
+        <SelectTrigger className="w-full rounded-none">
+          <SelectValue />
+        </SelectTrigger>
                       <SelectContent>
                         {(
                           Object.entries(roundTypeConfig) as [
@@ -271,16 +272,16 @@ function AddRoundDialog({
             </div>
           </FieldGroup>
           <DialogFooter>
-            <DialogClose
-              render={
-                <Button variant="outline" type="button">
-                  Cancel
-                </Button>
-              }
-            />
-            <Button type="submit" disabled={createMutation.isPending}>
-              {createMutation.isPending ? "Adding..." : "Add Round"}
-            </Button>
+          <DialogClose
+            render={
+              <Button variant="outline" type="button" className="rounded-none">
+                Cancel
+              </Button>
+            }
+          />
+          <Button type="submit" className="rounded-none" disabled={createMutation.isPending}>
+            {createMutation.isPending ? "Adding..." : "Add Round"}
+          </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -301,13 +302,13 @@ export function InterviewRoundsSection({
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-muted-foreground">
+        <h3 className="font-heading text-xs uppercase tracking-wider text-muted-foreground">
           {rounds.length} round{rounds.length !== 1 ? "s" : ""}
         </h3>
         <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
           <DialogTrigger
             render={
-              <Button size="sm">
+              <Button size="sm" className="rounded-none">
                 <Plus className="mr-1 size-4" />
                 Add Round
               </Button>
@@ -322,7 +323,7 @@ export function InterviewRoundsSection({
       </div>
 
       {rounds.length === 0 ? (
-        <p className="py-8 text-center text-sm text-muted-foreground">
+        <p className="py-8 text-center font-mono text-sm text-muted-foreground">
           No interview rounds yet. Add one to get started.
         </p>
       ) : (

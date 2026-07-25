@@ -24,7 +24,7 @@ export function ActivityLogSection({
   return (
     <div>
       {activityLogs.length === 0 ? (
-        <p className="py-8 text-center text-sm text-muted-foreground">
+        <p className="py-8 text-center font-mono text-sm text-muted-foreground">
           No activity recorded yet.
         </p>
       ) : (
@@ -55,11 +55,11 @@ export function ActivityLogSection({
                     <div className="flex items-center justify-between gap-2">
                       <Badge
                         variant={config?.variant ?? "ghost"}
-                        className="shrink-0"
+                        className="shrink-0 rounded-none"
                       >
                         {config?.label ?? log.type ?? "Unknown"}
                       </Badge>
-                      <span className="text-xs text-muted-foreground shrink-0">
+                      <span className="font-mono text-[10px] text-muted-foreground shrink-0">
                         {formatDistanceToNow(
                           new Date(log.created_at),
                           { addSuffix: true },
@@ -67,7 +67,7 @@ export function ActivityLogSection({
                       </span>
                     </div>
                     {log.description && (
-                      <p className="mt-1 text-sm text-muted-foreground leading-snug">
+                      <p className="mt-1 font-mono text-sm text-muted-foreground leading-snug">
                         {log.description}
                       </p>
                     )}

@@ -42,19 +42,19 @@ function ContactCard({
   const deleteMutation = useDeleteContact();
 
   return (
-    <Card size="sm">
+    <Card size="sm" className="rounded-none border border-border bg-card">
       <CardContent>
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0 space-y-1">
-            <p className="text-sm font-medium">{contact.name}</p>
+            <p className="font-sans text-sm">{contact.name}</p>
             {contact.role && (
-              <p className="text-xs text-muted-foreground">{contact.role}</p>
+              <p className="font-mono text-[10px] text-muted-foreground">{contact.role}</p>
             )}
             <div className="flex items-center gap-3 pt-1">
               {contact.email && (
                 <a
                   href={`mailto:${contact.email}`}
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  className="inline-flex items-center gap-1 font-mono text-[10px] text-muted-foreground hover:text-foreground"
                 >
                   <Mail className="size-3" />
                   {contact.email}
@@ -65,7 +65,7 @@ function ContactCard({
                   href={contact.linkedin_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  className="inline-flex items-center gap-1 font-mono text-[10px] text-muted-foreground hover:text-foreground"
                 >
                   <ExternalLink className="size-3" />
                   LinkedIn
@@ -73,7 +73,7 @@ function ContactCard({
               )}
             </div>
             {contact.notes && (
-              <p className="pt-1 text-xs text-muted-foreground">
+              <p className="pt-1 font-mono text-[10px] text-muted-foreground">
                 {contact.notes}
               </p>
             )}
@@ -82,6 +82,7 @@ function ContactCard({
             <Button
               variant="ghost"
               size="icon-xs"
+              className="cursor-pointer"
               onClick={() => onEdit(contact)}
             >
               <Pencil className="size-3" />
@@ -89,6 +90,7 @@ function ContactCard({
             <Button
               variant="ghost"
               size="icon-xs"
+              className="cursor-pointer"
               onClick={() => deleteMutation.mutate(contact.id)}
             >
               <Trash2 className="size-3" />
@@ -172,9 +174,11 @@ function ContactDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="rounded-none sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Contact" : "Add Contact"}</DialogTitle>
+          <DialogTitle className="font-heading text-xs uppercase tracking-wider">
+            {isEdit ? "// EDIT CONTACT" : "// ADD CONTACT"}
+          </DialogTitle>
           <DialogDescription>
             {isEdit
               ? "Update the contact details."
@@ -279,20 +283,20 @@ function ContactDialog({
             </div>
           </FieldGroup>
           <DialogFooter>
-            <DialogClose
-              render={
-                <Button variant="outline" type="button">
-                  Cancel
-                </Button>
-              }
-            />
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting
-                ? "Saving..."
-                : isEdit
-                  ? "Save Changes"
-                  : "Add Contact"}
-            </Button>
+          <DialogClose
+            render={
+              <Button variant="outline" type="button" className="rounded-none">
+                Cancel
+              </Button>
+            }
+          />
+          <Button type="submit" className="rounded-none" disabled={isSubmitting}>
+            {isSubmitting
+              ? "Saving..."
+              : isEdit
+                ? "Save Changes"
+                : "Add Contact"}
+          </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -324,17 +328,17 @@ export function ContactsSection({
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h3 className="text-sm font-medium text-muted-foreground">
+        <h3 className="font-heading text-xs uppercase tracking-wider text-muted-foreground">
           {contacts.length} contact{contacts.length !== 1 ? "s" : ""}
         </h3>
-        <Button size="sm" onClick={handleAdd}>
+          <Button size="sm" className="rounded-none" onClick={handleAdd}>
           <Plus className="mr-1 size-4" />
           Add Contact
         </Button>
       </div>
 
       {contacts.length === 0 ? (
-        <p className="py-8 text-center text-sm text-muted-foreground">
+        <p className="py-8 text-center font-mono text-sm text-muted-foreground">
           No contacts yet. Add one to get started.
         </p>
       ) : (
