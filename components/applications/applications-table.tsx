@@ -4,7 +4,13 @@ import { useCallback } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
-import { ArrowUpDown, ArrowUp, ArrowDown, ExternalLink, Inbox } from "lucide-react";
+import {
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  ExternalLink,
+  Inbox,
+} from "lucide-react";
 
 import type { Database } from "@/lib/database.types";
 import { statusConfig } from "@/lib/config";
@@ -20,7 +26,6 @@ import {
   EmptyMedia,
   EmptyTitle,
   EmptyDescription,
-  EmptyContent,
 } from "@/components/ui/empty";
 import { CreateApplicationDialog } from "@/components/applications/create-application-dialog";
 import { EditApplicationDialog } from "@/components/applications/edit-application-dialog";
@@ -151,7 +156,7 @@ export function ApplicationsTable({
                   key={col.key}
                   className={cn(
                     "cursor-pointer select-none font-heading text-[10px] uppercase tracking-wider text-muted-foreground h-8 px-2",
-                    col.hideMobile && "hidden md:table-cell"
+                    col.hideMobile && "hidden md:table-cell",
                   )}
                   onClick={() => handleSort(col.key)}
                 >
@@ -203,10 +208,14 @@ export function ApplicationsTable({
                   key={app.id}
                   className="border-border hover:bg-muted/30"
                 >
-                  <TableCell className={cn("font-medium", colClasses("company_name"))}>
+                  <TableCell
+                    className={cn("font-medium", colClasses("company_name"))}
+                  >
                     {app.company_name}
                   </TableCell>
-                  <TableCell className={colClasses("role_title")}>{app.role_title}</TableCell>
+                  <TableCell className={colClasses("role_title")}>
+                    {app.role_title}
+                  </TableCell>
                   <TableCell className={colClasses("status")}>
                     {app.status && (
                       <Badge variant={statusConfig[app.status].variant}>
