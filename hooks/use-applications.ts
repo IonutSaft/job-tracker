@@ -198,6 +198,9 @@ export function useReorderApplications() {
       }
       toast.error("Failed to reorder cards");
     },
+    onSuccess: () => {
+      toast.success("Cards reordered");
+    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["applications"] });
     },

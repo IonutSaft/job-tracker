@@ -90,12 +90,16 @@ export function useUpdateInterviewRoundOutcome() {
 
       return { previous };
     },
+    onSuccess: () => {
+      toast.success("Outcome updated");
+    },
     onError: (_err, _vars, context) => {
       if (context?.previous) {
         for (const [key, data] of context.previous) {
           queryClient.setQueryData(key, data);
         }
       }
+      toast.error("Failed to update outcome");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["interview-rounds"] });
@@ -134,6 +138,9 @@ export function useDeleteInterviewRound() {
         }
       }
       toast.error("Failed to delete round");
+    },
+    onSuccess: () => {
+      toast.success("Round deleted");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["interview-rounds"] });

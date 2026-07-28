@@ -119,6 +119,9 @@ export function useDeleteContact() {
       }
       toast.error("Failed to delete contact");
     },
+    onSuccess: () => {
+      toast.success("Contact deleted");
+    },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["contacts"] });
     },
