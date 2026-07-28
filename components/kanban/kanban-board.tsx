@@ -35,7 +35,7 @@ export function KanbanBoard({
 }: {
   applications: ApplicationRow[];
 }) {
-  const { data: applications } = useKanbanApplications(initialApplications);
+  const { data: applications, isFetching } = useKanbanApplications(initialApplications);
   const reorderMutation = useReorderApplications();
 
   const grouped = useMemo(() => groupByStatus(applications), [applications]);
@@ -148,6 +148,14 @@ export function KanbanBoard({
           );
         }}
       </DragOverlay>
+      {isFetching && (
+        <div className="flex items-center justify-center gap-1.5 py-1">
+          <div className="size-1.5 animate-pulse rounded-full bg-primary" />
+          <div className="size-1.5 animate-pulse rounded-full bg-primary [animation-delay:0.2s]" />
+          <div className="size-1.5 animate-pulse rounded-full bg-primary [animation-delay:0.4s]" />
+          <span className="font-mono text-[10px] text-muted-foreground">Refreshing...</span>
+        </div>
+      )}
     </DragDropProvider>
   );
 }

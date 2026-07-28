@@ -19,6 +19,7 @@ import {
   useUpdateInterviewRoundOutcome,
   useDeleteInterviewRound,
 } from "@/hooks/use-interview-rounds";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -306,7 +307,7 @@ export function InterviewRoundsSection({
   applicationId: string;
   initialRounds: InterviewRound[];
 }) {
-  const { data: rounds } = useInterviewRounds(applicationId, initialRounds);
+  const { data: rounds, isFetching } = useInterviewRounds(applicationId, initialRounds);
   const [addDialogOpen, setAddDialogOpen] = useState(false);
 
   return (
@@ -332,7 +333,29 @@ export function InterviewRoundsSection({
         </Dialog>
       </div>
 
-      {rounds.length === 0 ? (
+      {isFetching ? (
+        <div className="space-y-2">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} size="sm" className="rounded-none border border-border bg-card">
+              <CardContent>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                  <div className="min-w-0 space-y-1">
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-5 w-24 rounded-none" />
+                      <Skeleton className="h-5 w-32 rounded-none" />
+                    </div>
+                    <Skeleton className="h-4 w-28 rounded-none" />
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Skeleton className="h-7 w-32 rounded-none" />
+                    <Skeleton className="size-7 rounded-none" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : rounds.length === 0 ? (
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">

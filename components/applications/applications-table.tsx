@@ -91,7 +91,7 @@ export function ApplicationsTable({
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { data: applicationsData } = useApplications(initialData);
+  const { data: applicationsData, isFetching } = useApplications(initialData);
   const applications = applicationsData ?? [];
   const pathname = usePathname();
 
@@ -260,6 +260,14 @@ export function ApplicationsTable({
           </TableBody>
         </Table>
       </CardContent>
+      {isFetching && applications.length > 0 && (
+        <div className="shrink-0 flex items-center justify-center gap-1.5 border-t border-border py-1">
+          <div className="size-1.5 animate-pulse rounded-full bg-primary" />
+          <div className="size-1.5 animate-pulse rounded-full bg-primary [animation-delay:0.2s]" />
+          <div className="size-1.5 animate-pulse rounded-full bg-primary [animation-delay:0.4s]" />
+          <span className="font-mono text-[10px] text-muted-foreground">Refreshing...</span>
+        </div>
+      )}
     </Card>
   );
 }

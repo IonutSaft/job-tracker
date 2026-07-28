@@ -14,6 +14,7 @@ import {
   useUpdateContact,
   useDeleteContact,
 } from "@/hooks/use-contacts";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -318,7 +319,7 @@ export function ContactsSection({
   applicationId: string;
   initialContacts: Contact[];
 }) {
-  const { data: contacts } = useContacts(applicationId, initialContacts);
+  const { data: contacts, isFetching } = useContacts(applicationId, initialContacts);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingContact, setEditingContact] = useState<Contact | null>(null);
 
@@ -344,7 +345,30 @@ export function ContactsSection({
         </Button>
       </div>
 
-      {contacts.length === 0 ? (
+      {isFetching ? (
+        <div className="space-y-2">
+          {[1, 2, 3].map((i) => (
+            <Card key={i} size="sm" className="rounded-none border border-border bg-card">
+              <CardContent>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0 space-y-1">
+                    <Skeleton className="h-5 w-36 rounded-none" />
+                    <Skeleton className="h-4 w-24 rounded-none" />
+                    <div className="flex items-center gap-3 pt-1">
+                      <Skeleton className="h-4 w-28 rounded-none" />
+                      <Skeleton className="h-4 w-16 rounded-none" />
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Skeleton className="size-7 rounded-none" />
+                    <Skeleton className="size-7 rounded-none" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : contacts.length === 0 ? (
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">

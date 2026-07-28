@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { ArrowLeft } from "lucide-react";
 
 import {
@@ -17,8 +18,26 @@ import { ContactsSection } from "@/components/applications/contacts-section";
 import { ActivityLogSection } from "@/components/applications/activity-log-section";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default async function Page(props: { params: Promise<{ id: string }> }) {
+function ApplicationDetailSkeleton() {
+  return (
+    <div className="flex flex-1 min-h-0 flex-col gap-3 p-6">
+      <div className="shrink-0">
+        <Skeleton className="h-9 w-44 rounded-none" />
+      </div>
+      <div className="flex gap-2 mb-2 flex-wrap">
+        <Skeleton className="h-8 w-16 rounded-none" />
+        <Skeleton className="h-8 w-32 rounded-none" />
+        <Skeleton className="h-8 w-24 rounded-none" />
+        <Skeleton className="h-8 w-20 rounded-none" />
+      </div>
+      <Skeleton className="flex-1 rounded-none" />
+    </div>
+  );
+}
+
+async function ApplicationDetailFetcher(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
@@ -84,5 +103,13 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+export default function Page(props: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={<ApplicationDetailSkeleton />}>
+      <ApplicationDetailFetcher {...props} />
+    </Suspense>
   );
 }
