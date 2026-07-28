@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Card } from "../ui/card";
 
 type Profile = Database["public"]["Tables"]["profiles"]["Row"];
 
@@ -87,75 +88,79 @@ export function ProfileForm({ profile }: { profile: Profile | null }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-      <div className="flex items-center gap-4">
-        <Avatar size="lg">
-          <AvatarImage
-            src={avatarPreview ?? currentAvatarUrl ?? undefined}
-            alt="Avatar"
-          />
-          <AvatarFallback>{initials}</AvatarFallback>
-        </Avatar>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          className="hidden"
-          onChange={handleFileSelect}
-        />
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <Camera />
-            {avatarPreview ? "Change" : "Upload"}
-          </Button>
-          {avatarPreview && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={handleRemoveAvatar}
-            >
-              Remove
-            </Button>
-          )}
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        <Label
-          htmlFor="full_name"
-          className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground"
-        >
-          Full Name
-        </Label>
-        <Controller
-          name="full_name"
-          control={control}
-          render={({ field }) => (
-            <Input
-              id="full_name"
-              placeholder="Your name"
-              className="rounded-none"
-              value={field.value ?? ""}
-              onChange={field.onChange}
+    <Card className="mx-auto w-full max-w-2xl rounded-none border border-border bg-card">
+      <div className="border-b border-border flex items-center justify-between px-3 pt-1 pb-3">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div className="flex items-center gap-4">
+            <Avatar size="lg">
+              <AvatarImage
+                src={avatarPreview ?? currentAvatarUrl ?? undefined}
+                alt="Avatar"
+              />
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              className="hidden"
+              onChange={handleFileSelect}
             />
-          )}
-        />
-        {errors.full_name && (
-          <p className="text-sm text-destructive">
-            {errors.full_name.message}
-          </p>
-        )}
-      </div>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <Camera />
+                {avatarPreview ? "Change" : "Upload"}
+              </Button>
+              {avatarPreview && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={handleRemoveAvatar}
+                >
+                  Remove
+                </Button>
+              )}
+            </div>
+          </div>
 
-      <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Saving..." : "Save Changes"}
-      </Button>
-    </form>
+          <div className="space-y-2">
+            <Label
+              htmlFor="full_name"
+              className="font-heading text-[10px] uppercase tracking-wider text-muted-foreground"
+            >
+              Full Name
+            </Label>
+            <Controller
+              name="full_name"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  id="full_name"
+                  placeholder="Your name"
+                  className="rounded-none"
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {errors.full_name && (
+              <p className="text-sm text-destructive">
+                {errors.full_name.message}
+              </p>
+            )}
+          </div>
+
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : "Save Changes"}
+          </Button>
+        </form>
+      </div>
+    </Card>
   );
 }

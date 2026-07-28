@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { getSupabaseClient, getCurrentUser, getProfile } from "@/lib/data";
 import { ProfileForm } from "@/components/settings/profile-form";
 
