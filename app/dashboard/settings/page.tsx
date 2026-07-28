@@ -2,13 +2,18 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { getSupabaseClient, getCurrentUser, getProfile } from "@/lib/data";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { ProfileForm } from "@/components/settings/profile-form";
 
 async function SettingsFetcher() {
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
   const { data: profile } = await getProfile(supabase, user?.id ?? "");
-  return <ProfileForm profile={profile} />;
+  return (
+    <ErrorBoundary>
+      <ProfileForm profile={profile} />
+    </ErrorBoundary>
+  );
 }
 
 function SettingsSkeleton() {

@@ -17,6 +17,7 @@ import { InterviewRoundsSection } from "@/components/applications/interview-roun
 import { ContactsSection } from "@/components/applications/contacts-section";
 import { ActivityLogSection } from "@/components/applications/activity-log-section";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -90,16 +91,22 @@ async function ApplicationDetailFetcher(props: { params: Promise<{ id: string }>
           <ApplicationCard application={application} resume={resume} />
         </TabsContent>
         <TabsContent value="rounds" className="pt-4 min-h-0">
-          <InterviewRoundsSection applicationId={id} initialRounds={rounds} />
+          <ErrorBoundary>
+            <InterviewRoundsSection applicationId={id} initialRounds={rounds} />
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="contacts" className="pt-4 min-h-0">
-          <ContactsSection applicationId={id} initialContacts={contacts} />
+          <ErrorBoundary>
+            <ContactsSection applicationId={id} initialContacts={contacts} />
+          </ErrorBoundary>
         </TabsContent>
         <TabsContent value="activity" className="pt-4 min-h-0">
-          <ActivityLogSection
-            applicationId={id}
-            initialActivityLogs={activityLogs}
-          />
+          <ErrorBoundary>
+            <ActivityLogSection
+              applicationId={id}
+              initialActivityLogs={activityLogs}
+            />
+          </ErrorBoundary>
         </TabsContent>
       </Tabs>
     </div>

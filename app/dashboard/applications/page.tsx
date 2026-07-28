@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import { getSupabaseClient, getCurrentUser, getApplications } from "@/lib/data";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { ApplicationsTable } from "@/components/applications/applications-table";
 
 const validSortColumns = [
@@ -42,7 +43,11 @@ async function ApplicationsFetcher(props: {
     ascending: sortDir === "asc",
   });
 
-  return <ApplicationsTable initialData={applications ?? []} />;
+  return (
+    <ErrorBoundary>
+      <ApplicationsTable initialData={applications ?? []} />
+    </ErrorBoundary>
+  );
 }
 
 function ApplicationsSkeleton() {

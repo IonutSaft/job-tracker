@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { Activity, Award, Briefcase, LayoutDashboard, Percent } from "lucide-react";
+import {
+  Activity,
+  Award,
+  Briefcase,
+  LayoutDashboard,
+  Percent,
+} from "lucide-react";
 
 import { ApplicationsTimelineChart } from "@/components/dashboard/applications-timeline-chart";
 import { AverageTimeCard } from "@/components/dashboard/average-time-card";
@@ -18,6 +24,7 @@ import {
   EmptyContent,
 } from "@/components/ui/empty";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ErrorBoundary } from "@/components/error-boundary";
 import {
   getApplicationFunnel,
   getApplicationTimeline,
@@ -66,11 +73,15 @@ async function DashboardContent() {
             </EmptyMedia>
             <EmptyTitle>No data yet</EmptyTitle>
             <EmptyDescription>
-              Start tracking your applications to see insights, charts, and upcoming interviews here.
+              Start tracking your applications to see insights, charts, and
+              upcoming interviews here.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent>
-            <Button render={<Link href="/dashboard/applications" />} nativeButton={false}>
+            <Button
+              render={<Link href="/dashboard/applications" />}
+              nativeButton={false}
+            >
               Go to Applications
             </Button>
           </EmptyContent>
@@ -113,8 +124,12 @@ async function DashboardContent() {
       </div>
 
       <div className="min-h-0 flex-[3] grid grid-cols-1 gap-4 max-lg:min-h-[300px] lg:grid-cols-2">
-        <FunnelChart data={funnel} />
-        <ApplicationsTimelineChart data={timeline} />
+        <ErrorBoundary>
+          <FunnelChart data={funnel} />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <ApplicationsTimelineChart data={timeline} />
+        </ErrorBoundary>
       </div>
 
       <div className="min-h-0 flex-[2] grid grid-cols-1 gap-4 max-lg:min-h-[200px] lg:grid-cols-2">
@@ -132,7 +147,11 @@ function DashboardSkeleton() {
     <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i} size="sm" className="rounded-none border border-border bg-card">
+          <Card
+            key={i}
+            size="sm"
+            className="rounded-none border border-border bg-card"
+          >
             <CardHeader className="flex-row items-center justify-between gap-2">
               <Skeleton className="h-3 w-24 rounded-none" />
               <Skeleton className="size-4 rounded-none" />
@@ -145,7 +164,10 @@ function DashboardSkeleton() {
       </div>
       <div className="min-h-0 flex-[3] grid grid-cols-1 gap-4 max-lg:min-h-[300px] lg:grid-cols-2">
         {Array.from({ length: 2 }).map((_, i) => (
-          <Card key={i} className="flex flex-col rounded-none border border-border bg-card min-h-0">
+          <Card
+            key={i}
+            className="flex flex-col rounded-none border border-border bg-card min-h-0"
+          >
             <CardHeader className="shrink-0">
               <Skeleton className="h-4 w-40 rounded-none" />
             </CardHeader>
@@ -163,7 +185,10 @@ function DashboardSkeleton() {
           <CardContent className="flex-1 min-h-0">
             <div className="space-y-2">
               {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="flex items-center justify-between gap-4 rounded-none border border-border bg-muted/30 p-2">
+                <div
+                  key={i}
+                  className="flex items-center justify-between gap-4 rounded-none border border-border bg-muted/30 p-2"
+                >
                   <div className="space-y-1">
                     <Skeleton className="h-3 w-32 rounded-none" />
                     <Skeleton className="h-3 w-24 rounded-none" />

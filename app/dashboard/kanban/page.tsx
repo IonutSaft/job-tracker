@@ -5,6 +5,7 @@ import { Kanban } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 import { getSupabaseClient, getCurrentUser, getApplications } from "@/lib/data";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { KanbanBoard } from "@/components/kanban/kanban-board";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,7 +52,11 @@ async function KanbanFetcher() {
     );
   }
 
-  return <KanbanBoard applications={applications ?? []} />;
+  return (
+    <ErrorBoundary>
+      <KanbanBoard applications={applications ?? []} />
+    </ErrorBoundary>
+  );
 }
 
 function KanbanSkeleton() {

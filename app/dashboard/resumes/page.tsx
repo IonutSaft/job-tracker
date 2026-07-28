@@ -2,13 +2,18 @@ import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { getSupabaseClient, getCurrentUser, getResumes } from "@/lib/data";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { ResumeLibrary } from "@/components/resumes/resume-library";
 
 async function ResumesFetcher() {
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
   const { data: resumes } = await getResumes(supabase, user?.id ?? "");
-  return <ResumeLibrary resumes={resumes ?? []} />;
+  return (
+    <ErrorBoundary>
+      <ResumeLibrary resumes={resumes ?? []} />
+    </ErrorBoundary>
+  );
 }
 
 function ResumesSkeleton() {
