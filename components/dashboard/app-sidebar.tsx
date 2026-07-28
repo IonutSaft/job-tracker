@@ -57,7 +57,7 @@ export async function AppSidebar() {
                   href="/dashboard"
                   className="font-heading text-base uppercase tracking-wider text-sidebar-foreground transition-colors hover:text-primary"
                 >
-                  &gt; Home
+                  &gt; Dashboard
                 </SidebarNavLink>
               </SidebarMenuItem>
               <SidebarMenuItem className="border-b border-sidebar-border py-1 last:border-b-0">
