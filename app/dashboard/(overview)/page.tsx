@@ -28,9 +28,9 @@ import {
   getUpcomingInterviews,
 } from "@/lib/data";
 
-// --- FETCHER COMPONENTS ---
+// --- DASHBOARD CONTENT ---
 
-async function StatCardsFetcher() {
+async function DashboardContent() {
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
   const stats = await getDashboardStats(supabase, user?.id);
@@ -79,136 +79,115 @@ async function StatCardsFetcher() {
     );
   }
 
-  return (
-    <div className="shrink-0 grid grid-cols-1 gap-4 sm:grid-cols-4">
-      <StatCard
-        label="Total Applications"
-        value={stats.totalApplications}
-        icon={<Briefcase className="size-4" />}
-      />
-      <StatCard
-        label="Currently Active"
-        value={stats.activeApplications}
-        icon={<Activity className="size-4" />}
-      />
-      <StatCard
-        label="Offers Received"
-        value={stats.offersReceived}
-        icon={<Award className="size-4" />}
-      />
-      <StatCard
-        label="Response Rate"
-        value={`${stats.responseRate}%`}
-        icon={<Percent className="size-4" />}
-        valueClassName={responseRateColor(stats.responseRate)}
-      />
-    </div>
-  );
-}
-
-async function ChartsFetcher() {
-  const supabase = await getSupabaseClient();
-  const user = await getCurrentUser(supabase);
-  const [funnel, timeline] = await Promise.all([
+  const [funnel, timeline, upcomingInterviews, avgDays] = await Promise.all([
     getApplicationFunnel(supabase, user?.id),
     getApplicationTimeline(supabase, user?.id),
-  ]);
-
-  return (
-    <>
-      <FunnelChart data={funnel} />
-      <ApplicationsTimelineChart data={timeline} />
-    </>
-  );
-}
-
-async function WidgetsFetcher() {
-  const supabase = await getSupabaseClient();
-  const user = await getCurrentUser(supabase);
-  const [upcomingInterviews, avgDays] = await Promise.all([
     getUpcomingInterviews(supabase, user?.id),
     getAverageTimeToInterview(supabase, user?.id),
   ]);
 
   return (
     <>
-      <UpcomingInterviews data={upcomingInterviews} />
-      <AverageTimeCard value={avgDays} />
+      <div className="shrink-0 grid grid-cols-1 gap-4 sm:grid-cols-4">
+        <StatCard
+          label="Total Applications"
+          value={stats.totalApplications}
+          icon={<Briefcase className="size-4" />}
+        />
+        <StatCard
+          label="Currently Active"
+          value={stats.activeApplications}
+          icon={<Activity className="size-4" />}
+        />
+        <StatCard
+          label="Offers Received"
+          value={stats.offersReceived}
+          icon={<Award className="size-4" />}
+        />
+        <StatCard
+          label="Response Rate"
+          value={`${stats.responseRate}%`}
+          icon={<Percent className="size-4" />}
+          valueClassName={responseRateColor(stats.responseRate)}
+        />
+      </div>
+
+      <div className="min-h-0 flex-[3] grid grid-cols-1 gap-4 max-lg:min-h-[300px] lg:grid-cols-2">
+        <FunnelChart data={funnel} />
+        <ApplicationsTimelineChart data={timeline} />
+      </div>
+
+      <div className="min-h-0 flex-[2] grid grid-cols-1 gap-4 max-lg:min-h-[200px] lg:grid-cols-2">
+        <UpcomingInterviews data={upcomingInterviews} />
+        <AverageTimeCard value={avgDays} />
+      </div>
     </>
   );
 }
 
-// --- SKELETON COMPONENTS ---
+// --- SKELETON ---
 
-function StatCardsSkeleton() {
+function DashboardSkeleton() {
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
-      {Array.from({ length: 4 }).map((_, i) => (
-        <Card key={i} size="sm" className="rounded-none border border-border bg-card">
+    <>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Card key={i} size="sm" className="rounded-none border border-border bg-card">
+            <CardHeader className="flex-row items-center justify-between gap-2">
+              <Skeleton className="h-3 w-24 rounded-none" />
+              <Skeleton className="size-4 rounded-none" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-7 w-16 rounded-none" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <div className="min-h-0 flex-[3] grid grid-cols-1 gap-4 max-lg:min-h-[300px] lg:grid-cols-2">
+        {Array.from({ length: 2 }).map((_, i) => (
+          <Card key={i} className="flex flex-col rounded-none border border-border bg-card min-h-0">
+            <CardHeader className="shrink-0">
+              <Skeleton className="h-4 w-40 rounded-none" />
+            </CardHeader>
+            <CardContent className="flex-1 min-h-0">
+              <Skeleton className="h-full w-full rounded-none" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <div className="min-h-0 flex-[2] grid grid-cols-1 gap-4 max-lg:min-h-[200px] lg:grid-cols-2">
+        <Card className="flex flex-col rounded-none border border-border bg-card min-h-0">
+          <CardHeader className="shrink-0">
+            <Skeleton className="h-4 w-36 rounded-none" />
+          </CardHeader>
+          <CardContent className="flex-1 min-h-0">
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-center justify-between gap-4 rounded-none border border-border bg-muted/30 p-2">
+                  <div className="space-y-1">
+                    <Skeleton className="h-3 w-32 rounded-none" />
+                    <Skeleton className="h-3 w-24 rounded-none" />
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <Skeleton className="h-5 w-20 rounded-none" />
+                    <Skeleton className="h-3 w-16 rounded-none" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="rounded-none border border-border bg-card">
           <CardHeader className="flex-row items-center justify-between gap-2">
-            <Skeleton className="h-3 w-24 rounded-none" />
+            <Skeleton className="h-4 w-36 rounded-none" />
             <Skeleton className="size-4 rounded-none" />
           </CardHeader>
           <CardContent>
-            <Skeleton className="h-7 w-16 rounded-none" />
+            <Skeleton className="h-7 w-24 rounded-none" />
+            <Skeleton className="mt-1 h-3 w-48 rounded-none" />
           </CardContent>
         </Card>
-      ))}
-    </div>
-  );
-}
-
-function ChartsSkeleton() {
-  return (
-    <>
-      {Array.from({ length: 2 }).map((_, i) => (
-        <Card key={i} className="flex flex-col rounded-none border border-border bg-card min-h-0">
-          <CardHeader className="shrink-0">
-            <Skeleton className="h-4 w-40 rounded-none" />
-          </CardHeader>
-          <CardContent className="flex-1 min-h-0">
-            <Skeleton className="h-full w-full rounded-none" />
-          </CardContent>
-        </Card>
-      ))}
-    </>
-  );
-}
-
-function WidgetsSkeleton() {
-  return (
-    <>
-      <Card className="flex flex-col rounded-none border border-border bg-card min-h-0">
-        <CardHeader className="shrink-0">
-          <Skeleton className="h-4 w-36 rounded-none" />
-        </CardHeader>
-        <CardContent className="flex-1 min-h-0">
-          <div className="space-y-2">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="flex items-center justify-between gap-4 rounded-none border border-border bg-muted/30 p-2">
-                <div className="space-y-1">
-                  <Skeleton className="h-3 w-32 rounded-none" />
-                  <Skeleton className="h-3 w-24 rounded-none" />
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <Skeleton className="h-5 w-20 rounded-none" />
-                  <Skeleton className="h-3 w-16 rounded-none" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-      <Card className="rounded-none border border-border bg-card">
-        <CardHeader className="flex-row items-center justify-between gap-2">
-          <Skeleton className="h-4 w-36 rounded-none" />
-          <Skeleton className="size-4 rounded-none" />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="h-7 w-24 rounded-none" />
-          <Skeleton className="mt-1 h-3 w-48 rounded-none" />
-        </CardContent>
-      </Card>
+      </div>
     </>
   );
 }
@@ -222,21 +201,9 @@ export default async function Page() {
         {"// DASHBOARD"}
       </h1>
 
-      <Suspense fallback={<StatCardsSkeleton />}>
-        <StatCardsFetcher />
+      <Suspense fallback={<DashboardSkeleton />}>
+        <DashboardContent />
       </Suspense>
-
-      <div className="min-h-0 flex-[3] grid grid-cols-1 gap-4 max-lg:min-h-[300px] lg:grid-cols-2">
-        <Suspense fallback={<ChartsSkeleton />}>
-          <ChartsFetcher />
-        </Suspense>
-      </div>
-
-      <div className="min-h-0 flex-[2] grid grid-cols-1 gap-4 max-lg:min-h-[200px] lg:grid-cols-2">
-        <Suspense fallback={<WidgetsSkeleton />}>
-          <WidgetsFetcher />
-        </Suspense>
-      </div>
     </div>
   );
 }

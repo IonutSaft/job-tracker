@@ -11,10 +11,7 @@ import { statusConfig } from "@/lib/config";
 import { useResumes } from "@/hooks/use-resumes";
 
 import { Button } from "@/components/ui/button";
-import {
-  DialogClose,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -236,9 +233,7 @@ export function ApplicationForm({
                   <Select
                     id="resume_id"
                     value={field.value ?? ""}
-                    onValueChange={(value) =>
-                      field.onChange(value || null)
-                    }
+                    onValueChange={(value) => field.onChange(value || null)}
                   >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select resume" />
@@ -261,7 +256,7 @@ export function ApplicationForm({
               )}
             </Field>
             <div className="flex flex-col gap-2">
-              <Label>Salary</Label>
+              <Label htmlFor="salary_currency">Salary</Label>
               <div className="flex flex-col sm:flex-row gap-2">
                 <div className="w-full sm:w-[110px] shrink-0">
                   <Controller
