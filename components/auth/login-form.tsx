@@ -28,13 +28,13 @@ export function LoginForm({
   const [state, formAction, isPending] = useActionState(login, null);
 
   useEffect(() => {
-    if (state?.error) toast.error(state.error);
-  }, [state?.error]);
+    if (state && !state.success) toast.error(state.error);
+  }, [state]);
 
   const handleGoogleLogin = async () => {
     const result = await loginWithGoogle();
-    if ("url" in result) {
-      window.location.href = result.url;
+    if (result.success) {
+      window.location.href = result.data!.url;
     } else {
       toast.error(result.error);
     }

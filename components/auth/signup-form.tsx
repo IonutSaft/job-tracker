@@ -24,10 +24,10 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
   const [state, formAction, isPending] = useActionState(signup, null);
 
   useEffect(() => {
-    if (state?.error) toast.error(state.error);
-    if (state?.success)
-      toast.success("Check your email to confirm your account!");
-  }, [state?.error, state?.success]);
+    if (!state) return;
+    if (!state.success) toast.error(state.error);
+    else toast.success("Check your email to confirm your account!");
+  }, [state]);
 
   return (
     <Card {...props}>
@@ -84,7 +84,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               />
               <FieldDescription>Please confirm your password.</FieldDescription>
             </Field>
-            {state?.error && (
+            {state && !state.success && (
               <p className="text-sm text-destructive">{state.error}</p>
             )}
             <FieldGroup>
