@@ -20,8 +20,9 @@ import {
 async function KanbanFetcher() {
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
+  if (!user) return null;
 
-  const query = getApplications(supabase, user?.id, {
+  const query = getApplications(supabase, user.id, {
     orderBy: "kanban_order",
     ascending: true,
   });

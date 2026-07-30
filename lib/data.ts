@@ -31,32 +31,38 @@ export function getApplication(
 export function getInterviewRounds(
   supabase: ReturnType<typeof createClient>,
   applicationId: string,
+  userId: string,
 ) {
   return supabase
     .from("interview_rounds")
     .select("*")
     .eq("application_id", applicationId)
+    .eq("user_id", userId)
     .order("round_order", { ascending: true });
 }
 
 export function getContacts(
   supabase: ReturnType<typeof createClient>,
   applicationId: string,
+  userId: string,
 ) {
   return supabase
     .from("contacts")
     .select("*")
-    .eq("application_id", applicationId);
+    .eq("application_id", applicationId)
+    .eq("user_id", userId);
 }
 
 export function getActivityLogs(
   supabase: ReturnType<typeof createClient>,
   applicationId: string,
+  userId: string,
 ) {
   return supabase
     .from("activity_logs")
     .select("*")
     .eq("application_id", applicationId)
+    .eq("user_id", userId)
     .order("created_at", { ascending: false });
 }
 
@@ -74,11 +80,13 @@ export function getResumes(
 export function getApplicationResume(
   supabase: ReturnType<typeof createClient>,
   resumeId: string,
+  userId: string,
 ) {
   return supabase
     .from("resumes")
     .select("*")
     .eq("id", resumeId)
+    .eq("user_id", userId)
     .single();
 }
 
@@ -230,14 +238,10 @@ export async function getAverageTimeToInterview(
 
 export function getApplications(
   supabase: ReturnType<typeof createClient>,
-  userId: string | undefined,
+  userId: string,
   options?: { status?: string; orderBy?: string; ascending?: boolean },
 ) {
-  let query = supabase.from("applications").select("*");
-
-  if (userId) {
-    query = query.eq("user_id", userId);
-  }
+  let query = supabase.from("applications").select("*").eq("user_id", userId);
 
   if (options?.status) {
     query = query.eq("status", options.status);

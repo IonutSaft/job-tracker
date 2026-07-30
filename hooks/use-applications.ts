@@ -141,15 +141,18 @@ export function useDeleteApplication() {
 }
 
 export function useKanbanApplications(initialData: Application[]) {
+  const { user } = useAuth();
   return useQuery<Application[]>({
-    queryKey: ["applications", "kanban"],
+    queryKey: ["applications", "kanban", user?.id],
     queryFn: async () => {
       const supabase = createClient();
-      const { data } = await supabase
+      let query = supabase
         .from("applications")
         .select("*")
         .order("kanban_order", { ascending: true })
         .order("applied_at", { ascending: false });
+      if (user?.id) query = query.eq("user_id", user.id);
+      const { data } = await query;
       return data ?? [];
     },
     initialData,

@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# // JOB TRACKER
 
-## Getting Started
+> **Live Demo →** [Add link here] *(coming soon)*
 
-First, run the development server:
+A modern, full-featured job application tracker built with **Next.js 16** and **Supabase**. Manage your entire job hunt in one place — from bookmarking interesting positions to tracking interview rounds and analyzing your pipeline with data-driven insights.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Kanban Board** — Drag-and-drop pipeline workflow with `@dnd-kit/react`. Move applications through stages (Bookmarked → Applied → Interviewing → Offer / Rejected).
+- **Table View** — Sortable, filterable table of all applications for quick scanning and bulk actions.
+- **Interview Round Tracking** — Attach multiple rounds (phone screen, technical, behavioral, take-home, final) per application with outcomes and scheduling.
+- **Dashboard** — Stats cards, funnel chart, timeline chart, and upcoming interviews widget for a bird's-eye view of your pipeline.
+- **Resume Uploads** — Upload and manage multiple resumes via Supabase Storage; attach them to individual applications.
+- **Activity Logging** — Every status change, round addition, and note update is tracked as timeline activity.
+- **Contacts** — Store recruiter / hiring manager contacts per application.
+- **Dark / Light Theme** — System-aware theming via `next-themes`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+| Tool | Rationale |
+|---|---|
+| [Next.js 16](https://nextjs.org/) (App Router) | React framework with file-based routing, React Server Components, and RSC data fetching patterns |
+| [Supabase](https://supabase.com/) | Backend-as-a-service — provides Postgres DB, authentication, row-level security, and file storage out of the box |
+| [shadcn/ui](https://ui.shadcn.com/) + [Tailwind CSS 4](https://tailwindcss.com/) | Copy-paste component library built on Base UI primitives with a consistent design token system |
+| [TypeScript](https://www.typescriptlang.org/) | End-to-end type safety from the database schema (via `supabase gen types`) to the UI layer |
+| [TanStack React Query](https://tanstack.com/query) | Declarative server-state management — caching, background refetching, and optimistic updates |
+| [react-hook-form](https://react-hook-form.com/) + [Zod](https://zod.dev/) | Performant, uncontrolled form handling with schema-based validation on both client and server |
+| [Recharts](https://recharts.org/) | Lightweight, composable charting library for the dashboard's funnel, timeline, and stat charts |
+| [@dnd-kit/react](https://dnd-kit.com/) | Accessible, customizable drag-and-drop for the Kanban board |
+| [date-fns](https://date-fns.org/) | Lightweight date formatting and manipulation |
+| [Lucide React](https://lucide.dev/) | Consistent, tree-shakeable icon set |
+| [Sonner](https://sonner.emilkowal.ski/) | Minimal, accessible toast notifications |
+| [Vitest](https://vitest.dev/) | Unit and integration test runner aligned with the modern Vite/Next.js toolchain |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Local Setup
 
-## Deploy on Vercel
+1. **Clone the repository:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   git clone <your-repo-url>
+   cd job-tracker
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set environment variables** — copy the following into `.env.local`:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ```
+
+   > Get `SUPABASE_URL` and `SUPABASE_ANON_KEY` from your Supabase project dashboard under **Settings → API**.
+
+4. **Start Supabase** (local or remote):
+
+   ```bash
+   npx supabase start        # local development
+   # or point .env.local to your hosted Supabase project
+   ```
+
+5. **Run database migrations:**
+
+   ```bash
+   npx supabase db push
+   ```
+
+6. **Start the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000) to see the app.
+
+---
+
+## Screenshots / Walkthrough
+
+<!-- Add screenshots or a short walkthrough GIF here once ready -->
+
+---
+
+## Key Technical Decisions
+
+<!-- This section will be populated as the project evolves -->

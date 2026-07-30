@@ -68,7 +68,8 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               <FieldLabel htmlFor="password">Password</FieldLabel>
               <Input id="password" name="password" type="password" required />
               <FieldDescription>
-                Must be at least 6 characters long.
+                At least 8 characters, with one lowercase, one uppercase, and one
+                digit.
               </FieldDescription>
             </Field>
             <Field>

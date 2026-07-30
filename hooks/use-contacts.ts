@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { useAuth } from "@/components/auth/auth-context";
 import { createClient } from "@/utils/supabase/client";
 import type { Database } from "@/lib/database.types";
 import {
@@ -16,14 +17,17 @@ export function useContacts(
   applicationId: string,
   initialData: Contact[],
 ) {
+  const { user } = useAuth();
   return useQuery<Contact[]>({
-    queryKey: ["contacts", applicationId],
+    queryKey: ["contacts", applicationId, user?.id],
     queryFn: async () => {
       const supabase = createClient();
-      const { data } = await supabase
+      let query = supabase
         .from("contacts")
         .select("*")
         .eq("application_id", applicationId);
+      if (user?.id) query = query.eq("user_id", user.id);
+      const { data } = await query;
       return data ?? [];
     },
     initialData,

@@ -66,9 +66,9 @@ export async function updateProfile(formData: FormData) {
 
     const { data: urlData } = await supabase.storage
       .from("avatars")
-      .getPublicUrl(filePath);
+      .createSignedUrl(filePath, 31536000);
 
-    avatarUrl = urlData.publicUrl;
+    avatarUrl = urlData?.signedUrl ?? null;
   }
 
   const updateData: Record<string, string | null> = {

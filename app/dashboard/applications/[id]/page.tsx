@@ -47,16 +47,16 @@ async function ApplicationDetailFetcher(props: { params: Promise<{ id: string }>
   const [applicationResult, roundsResult, contactsResult, activityResult] =
     await Promise.all([
       getApplication(supabase, id, user.id),
-      getInterviewRounds(supabase, id),
-      getContacts(supabase, id),
-      getActivityLogs(supabase, id),
+      getInterviewRounds(supabase, id, user.id),
+      getContacts(supabase, id, user.id),
+      getActivityLogs(supabase, id, user.id),
     ]);
 
   const application = applicationResult.data;
   if (!application) notFound();
 
   const resume = application.resume_id
-    ? (await getApplicationResume(supabase, application.resume_id)).data
+    ? (await getApplicationResume(supabase, application.resume_id, user.id)).data
     : null;
 
   const rounds = roundsResult.data ?? [];

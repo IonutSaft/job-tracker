@@ -23,6 +23,7 @@ async function ApplicationsFetcher(props: {
   const searchParams = await props.searchParams;
   const supabase = await getSupabaseClient();
   const user = await getCurrentUser(supabase);
+  if (!user) return <ApplicationsTable initialData={[]} />;
 
   const sortByParam = searchParams?.sortBy;
   const sortBy =
@@ -37,7 +38,7 @@ async function ApplicationsFetcher(props: {
   const statusParam = searchParams?.status;
   const statusFilter = typeof statusParam === "string" ? statusParam : "";
 
-  const { data: applications } = await getApplications(supabase, user?.id, {
+  const { data: applications } = await getApplications(supabase, user.id, {
     status: statusFilter || undefined,
     orderBy: sortBy,
     ascending: sortDir === "asc",
