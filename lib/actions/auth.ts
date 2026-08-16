@@ -30,6 +30,30 @@ async function getClientIp(): Promise<string> {
   return headersList.get("x-forwarded-for") ?? headersList.get("x-real-ip") ?? "unknown";
 }
 
+function normalizeUrl(url: string): string {
+  const normalized = url.startsWith("http") ? url : `https://${url}`;
+  return normalized.endsWith("/") ? normalized : `${normalized}/`;
+}
+
+async function getRedirectOrigin(): Promise<string> {
+  const headersList = await headers();
+  const host = headersList.get("x-forwarded-host") ?? headersList.get("host");
+  const proto = headersList.get("x-forwarded-proto");
+
+  if (host) {
+    const scheme = proto ?? (host.includes("localhost") || host.startsWith("127.0.0.1") ? "http" : "https");
+    return normalizeUrl(`${scheme}://${host}`);
+  }
+
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  if (siteUrl) return normalizeUrl(siteUrl);
+
+  const vercelUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
+  if (vercelUrl) return normalizeUrl(vercelUrl);
+
+  return "http://localhost:3000/";
+}
+
 const passwordRule =
   "Password must be at least 8 characters with at least one lowercase letter, one uppercase letter, and one digit";
 
@@ -134,10 +158,7 @@ export async function signup(
 }
 
 export async function loginWithGoogle(): Promise<AuthResult<{ url: string }>> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  if (!siteUrl) {
-    return { success: false, error: "Site URL is not configured. Please set NEXT_PUBLIC_SITE_URL." };
-  }
+  const origin = await getRedirectOrigin();
 
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
@@ -145,7 +166,7 @@ export async function loginWithGoogle(): Promise<AuthResult<{ url: string }>> {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${siteUrl}/callback`,
+      redirectTo: `${origin}callback`,
     },
   });
 
