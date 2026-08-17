@@ -1,6 +1,6 @@
 # // JOB TRACKER
 
-> **Live Demo →** [Add link here] _(coming soon)_
+> **Live Demo →** [Open here](https://job-tracker-khaki-five.vercel.app)
 
 A modern, full-featured job application tracker built with **Next.js 16** and **Supabase**. Manage your entire job hunt in one place — from bookmarking interesting positions to tracking interview rounds and analyzing your pipeline with data-driven insights.
 
