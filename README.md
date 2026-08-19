@@ -57,11 +57,11 @@ A modern, full-featured job application tracker built with **Next.js 16** and **
 
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
 
-   > Get `SUPABASE_URL` and `SUPABASE_ANON_KEY` from your Supabase project dashboard under **Settings → API**.
+   > Get `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from your Supabase project dashboard under **Settings → API**.
 
 4. **Start Supabase** (local or remote):
 
