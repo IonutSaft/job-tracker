@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PublicFooter } from "@/components/public-footer";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -19,7 +20,8 @@ export default async function Home() {
   if (user) redirect("/dashboard");
 
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <div className="flex min-h-svh w-full flex-col">
+      <div className="flex flex-1 items-center justify-center p-6 md:p-10">
       <div className="flex w-full max-w-md flex-col items-center gap-10">
         <div className="flex flex-col items-center gap-2">
           <h1 className="font-heading text-3xl uppercase tracking-[0.15em] text-primary [text-shadow:0_0_12px_rgba(0,255,65,0.5)]">
@@ -69,6 +71,8 @@ export default async function Home() {
           </Link>
         </div>
       </div>
+      </div>
+      <PublicFooter />
     </div>
   );
 }
